@@ -7,8 +7,8 @@ export default function Navbar() {
     <nav className="bg-gray-900 text-white fixed w-full top-0 z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-8 flex items-center justify-between">
         {/* Logo */}
-        <div className="text-2xl font-bold text-blue-400">
-          Biz<span className="text-white">Boost</span>
+        <div className="text-2xl font-bold text-yellow-400">
+          Easyway<span className="text-white">Electricals</span>
         </div>
 
         {/* Desktop Menu */}

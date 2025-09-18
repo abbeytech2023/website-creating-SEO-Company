@@ -2,7 +2,6 @@
 
 export default function EasyWayElectrical() {
   return (
-    <div className="">akanji oniposi</div>
     //     <div className="bg-gray-900 text-white">
     //       {/* Hero Section */}
     //       <section className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 py-28 px-6 md:px-16 overflow-hidden">
