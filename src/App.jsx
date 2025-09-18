@@ -7,7 +7,7 @@ import ElectricalEngineerLanding from "./components/Contact";
 const App = () => {
   return (
     <Router>
-      {/* <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/aboutus" element={<AboutUs />} />
