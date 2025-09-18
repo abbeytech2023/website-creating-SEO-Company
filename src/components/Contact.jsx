@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 export default function EasyWayElectrical() {
   return (
@@ -38,7 +38,7 @@ export default function EasyWayElectrical() {
           </div>
 
           {/* Image */}
-          <motion.div
+          <div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1 }}
@@ -49,7 +49,7 @@ export default function EasyWayElectrical() {
               alt="Electrical Engineer"
               className="w-80 md:w-96 drop-shadow-2xl"
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* Glow Effect Background */}
@@ -73,8 +73,8 @@ export default function EasyWayElectrical() {
 
         <div className="grid md:grid-cols-3 gap-12">
           {/* Service 1 */}
-          <motion.div
-            whileHover={{ scale: 1.05, rotate: 1 }}
+          <div
+            // whileHover={{ scale: 1.05, rotate: 1 }}
             className="bg-gray-700 rounded-2xl p-8 shadow-xl cursor-pointer hover:shadow-yellow-500/40 transition"
           >
             <img
@@ -87,10 +87,10 @@ export default function EasyWayElectrical() {
               Safe, efficient, and modern installations for homes — built to
               last.
             </p>
-          </motion.div>
+          </div>
 
           {/* Service 2 */}
-          <motion.div
+          <div
             whileHover={{ scale: 1.05, rotate: -1 }}
             className="bg-gray-700 rounded-2xl p-8 shadow-xl cursor-pointer hover:shadow-blue-500/40 transition"
           >
@@ -104,10 +104,10 @@ export default function EasyWayElectrical() {
               Powering industries with robust electrical infrastructures
               designed for reliability.
             </p>
-          </motion.div>
+          </div>
 
           {/* Service 3 */}
-          <motion.div
+          <div
             whileHover={{ scale: 1.05, rotate: 1 }}
             className="bg-gray-700 rounded-2xl p-8 shadow-xl cursor-pointer hover:shadow-yellow-400/40 transition"
           >
@@ -123,7 +123,7 @@ export default function EasyWayElectrical() {
               Quick troubleshooting and repairs to keep systems safe and
               efficient.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -133,7 +133,7 @@ export default function EasyWayElectrical() {
         className="py-20 px-6 md:px-16 bg-gradient-to-r from-yellow-500 to-blue-500 text-black text-center"
       >
         <h2 className="text-3xl md:text-5xl font-extrabold mb-6">
-          Let’s Power Your Vision ⚡
+          Let's Power Your Vision ⚡
         </h2>
         <p className="max-w-2xl mx-auto mb-8">
           EasyWay Electrical Engineers are ready to bring reliable power to your
