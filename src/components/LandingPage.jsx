@@ -221,7 +221,7 @@ export default function YKSAlaseVentures() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1601933470928-cfb3c9d4b894"
+                  src="https://images.unsplash.com/photo-1584950967742-2d5ddfa3c840?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHBseXdvb2R8ZW58MHx8MHx8fDA%3D"
                   alt={item}
                 />
                 <div>
