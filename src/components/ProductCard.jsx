@@ -15,6 +15,7 @@ export default function ProductCard({ product }) {
         />
         <h3 className="font-semibold text-lg">{product.name}</h3>
         <p className="text-blue-600 font-bold">{product.price}</p>
+        <p>{product.color}</p>
       </Link>
 
       <button
