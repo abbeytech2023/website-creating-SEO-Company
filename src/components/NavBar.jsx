@@ -12,7 +12,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-blue-600">
-          ShoeShop
+          Shoes-villa
         </Link>
 
         {/* Desktop Nav */}
