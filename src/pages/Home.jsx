@@ -28,19 +28,19 @@ export default function Home() {
               to="/shoes"
               className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-full font-semibold text-white transition"
             >
-              Shop Shoes
+              Shoes
             </Link>
             <Link
               to="/slippers"
               className="bg-white text-indigo-700 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition"
             >
-              Shop Slippers
+              Slippers
             </Link>
             <Link
               to="/akube"
               className="bg-white text-indigo-700 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition"
             >
-              Shop Akube
+              Akube
             </Link>
           </div>
         </div>
