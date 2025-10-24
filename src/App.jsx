@@ -9,7 +9,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import OrdersPage from "./pages/OrderManagement";
-import Shoes from "./pages/shoes";
+import Shoes from "./pages/Shoes";
 import Slippers from "./pages/Slippers";
 
 export default function App() {
