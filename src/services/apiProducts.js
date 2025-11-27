@@ -11,6 +11,19 @@ export async function getShoes() {
 
   return data;
 }
+
+export async function getSingleShoes(id) {
+  const { data, error } = await supabase
+    .from("Shoes")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) console.log(error);
+
+  return data;
+}
+
 export async function getSlippers() {
   const { data, error } = await supabase.from("Slippers").select("*");
 
@@ -19,6 +32,18 @@ export async function getSlippers() {
   }
 
   //   console.log(data);
+
+  return data;
+}
+
+export async function getSingleSlippers(id) {
+  const { data, error } = await supabase
+    .from("Slippers")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) console.log(error);
 
   return data;
 }

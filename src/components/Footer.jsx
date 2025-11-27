@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+// import { useCart } from "../context/CartContext";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function Cart() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCartContext();
 
   const total = cart.reduce((sum, item) => {
     const price = parseFloat(item.price.replace("$", "")); // convert "$120" → 120

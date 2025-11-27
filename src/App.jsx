@@ -4,13 +4,16 @@ import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
-import Product from "./pages/Product";
+import SingleShoes from "./pages/SingleShoes";
 import Cart from "./pages/Cart";
+import AkubeStores from "./pages/AkubeStores";
 import Checkout from "./pages/Checkout";
 import Success from "./pages/Success";
 import OrdersPage from "./pages/OrderManagement";
-import Shoes from "./pages/Shoes";
+import AkubeSellerProfile from "./pages/AkubeSellerProfile";
 import Slippers from "./pages/Slippers";
+import ShoemakersDirectory from "./pages/ShoeMakers.Jsx";
+import ShoemakerProfile from "./pages/ShoeMakerProfile";
 
 export default function App() {
   return (
@@ -19,10 +22,12 @@ export default function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/shoes" element={<Shoes />} />
+          <Route path="/shoemakers" element={<ShoemakersDirectory />} />
+          <Route path="/shoe-maker-profile" element={<ShoemakerProfile />} />
+          <Route path="akube-seller-profile" element={<AkubeSellerProfile />} />
+          <Route path="akube-stores" element={<AkubeStores />} />
           <Route path="/slippers" element={<Slippers />} />
-          <Route path="/product/:id" element={<Product />} />
+          <Route path="/singleshoes/:id" element={<SingleShoes />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />

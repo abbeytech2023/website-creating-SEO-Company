@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "../context/CartContext";
+// import { useCart } from "../context/CartContext";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function Navbar() {
-  const { cart } = useCart();
+  // const { cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const { cart } = useCartContext();
 
   return (
     <header className="bg-white shadow-md sticky top-0 left-0 w-full z-50">

@@ -1,18 +1,20 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
-import products from "../data/product";
 import { useGetShoes } from "../hooks/useProducts";
-import { useGetSlippers } from "../hooks/useProducts";
+import SpinnerMini from "../components/SpinnerMini";
 
 export default function Shoes() {
   const { data: shoes } = useGetShoes();
 
-  const coverwear = shoes || [];
+  console.log(shoes);
+
+  if (!shoes) return <SpinnerMini />;
 
   return (
-    <section className="p-6 grid gap-6 md:grid-cols-3">
-      {coverwear &&
-        coverwear.map((p) => <ProductCard key={p.id} product={p} />)}
-    </section>
+    <>
+      <section className="p-6 grid gap-6 md:grid-cols-3">
+        {shoes && shoes?.map((p) => <ProductCard key={p?.id} product={p} />)}
+      </section>
+    </>
   );
 }

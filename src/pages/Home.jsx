@@ -25,22 +25,22 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/shoes"
+              to="/shoemakers"
               className="bg-indigo-600 hover:bg-indigo-700 px-8 py-3 rounded-full font-semibold text-white transition"
             >
-              Shoes
+              Shoes-Makers
             </Link>
-            <Link
+            {/* <Link
               to="/slippers"
               className="bg-white text-indigo-700 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition"
             >
               Slippers
-            </Link>
+            </Link> */}
             <Link
-              to="/akube"
+              to="/akube-stores"
               className="bg-white text-indigo-700 hover:bg-gray-100 px-8 py-3 rounded-full font-semibold transition"
             >
-              Akube
+              Akube-Sellers
             </Link>
           </div>
         </div>
@@ -77,10 +77,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Banners */}
-      <section className="py-16 bg-gray-100 px-6">
+      {/* <section className="py-16 bg-gray-100 px-6">
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Shoes Banner */}
+           Shoes Banner
           <Link
             to="/shoes"
             className="relative rounded-2xl overflow-hidden group shadow-md"
@@ -97,7 +96,6 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Slippers Banner */}
           <Link
             to="/slippers"
             className="relative rounded-2xl overflow-hidden group shadow-md"
@@ -130,7 +128,7 @@ export default function Home() {
             </div>
           </Link>
         </div>
-      </section>
+      </section>  */}
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 text-center py-4 mt-auto">
