@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // import { useCart } from "../context/CartContext";
+import { useCartContext } from "../hooks/useCartContext";
 import { formatPrice } from "../utility/utility";
 
 export default function ProductCard({ product }) {
   console.log(product);
 
-  const { addToCart } = useCart();
+  const { addToCart } = useCartContext();
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-lg transition">

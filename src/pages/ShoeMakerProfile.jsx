@@ -1,5 +1,6 @@
 // src/pages/ShoemakerProfile.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
 const shoemaker = {
   id: 1,
@@ -99,7 +100,9 @@ export default function ShoemakerProfile() {
 
       {/* VIEW PRODUCTS */}
       <button className="mt-8 bg-[#03022a] text-white py-3 px-6 rounded-xl w-full font-medium">
-        View Products by {shoemaker.name} →
+        <Link to="/shop" className="w-full block ">
+          View Products by {shoemaker.name} →
+        </Link>
       </button>
     </div>
   );

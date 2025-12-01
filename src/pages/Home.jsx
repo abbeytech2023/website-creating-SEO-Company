@@ -5,11 +5,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header (simple logo centered) */}
-      <header className="bg-white py-6 shadow-sm flex justify-center">
+      {/* <header className="bg-white py-6 shadow-sm flex justify-center">
         <h1 className="text-3xl font-extrabold text-gray-900 tracking-wide">
           Shoe<span className="text-indigo-600">&</span>Slipper
         </h1>
-      </header>
+      </header> */}
 
       {/* Hero Section */}
       <section

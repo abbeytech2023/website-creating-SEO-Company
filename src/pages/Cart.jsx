@@ -1,13 +1,13 @@
-import React from "react";
+import { formatPrice } from "../utility/utility";
 import { Link } from "react-router-dom";
-// import { useCart } from "../context/CartContext";
+import { useCartContext } from "../hooks/useCartContext";
 
 export default function Cart() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCartContext();
 
   const total = cart.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace("$", "")); // convert "$120" → 120
-    return sum + price;
+    const price = parseFloat(item.price.replace("$", ""));
+    return sum + price * item.qty; // multiply by qty
   }, 0);
 
   if (cart.length === 0) {
@@ -41,7 +41,24 @@ export default function Cart() {
               />
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-blue-600 font-bold">{item.price}</p>
+                <p className="text-blue-600 font-bold">
+                  {formatPrice(item.price)}
+                </p>
+
+                {/* SHOW QUANTITY HERE */}
+                <p className="text-gray-700">
+                  Qty: <span className="font-semibold">{item.qty}</span>
+                </p>
+
+                {/* SUBTOTAL PER ITEM */}
+                <p className="font-semibold text-green-600">
+                  Subtotal:{" "}
+                  {formatPrice(
+                    (
+                      parseFloat(item.price.replace("$", "")) * item.qty
+                    ).toFixed(2)
+                  )}
+                </p>
               </div>
             </div>
             <button
@@ -57,13 +74,21 @@ export default function Cart() {
       {/* Cart Summary */}
       <div className="mt-8 bg-gray-100 p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-bold mb-4">Order Summary</h3>
+
         <p className="mb-2">
-          Items: <span className="font-medium">{cart.length}</span>
+          Items:{" "}
+          <span className="font-medium">
+            {cart.reduce((sum, item) => sum + item.qty, 0)} {/* total qty */}
+          </span>
         </p>
+
         <p className="mb-4">
           Total:{" "}
-          <span className="font-bold text-blue-600">${total.toFixed(2)}</span>
+          <span className="font-bold text-blue-600">
+            ${formatPrice(total.toFixed(2))}
+          </span>
         </p>
+
         <div className="flex space-x-4">
           <button
             onClick={clearCart}

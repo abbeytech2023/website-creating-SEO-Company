@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 // import { useCart } from "../context/CartContext";
 import { useCartContext } from "../hooks/useCartContext";
+import { formatPrice } from "../utility/utility";
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart } = useCartContext();
@@ -42,7 +43,9 @@ export default function Cart() {
               />
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-blue-600 font-bold">{item.price}</p>
+                <p className="text-blue-600 font-bold">
+                  {formatPrice(item.price)}
+                </p>
               </div>
             </div>
             <button
@@ -63,7 +66,9 @@ export default function Cart() {
         </p>
         <p className="mb-4">
           Total:{" "}
-          <span className="font-bold text-blue-600">${total.toFixed(2)}</span>
+          <span className="font-bold text-blue-600">
+            {formatPrice(total.toFixed(2))}
+          </span>
         </p>
         <div className="flex space-x-4">
           <button

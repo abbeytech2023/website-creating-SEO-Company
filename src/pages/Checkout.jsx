@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCartContext } from "../hooks/useCartContext";
+import { formatPrice } from "../utility/utility";
 // import { useCart } from "../context/CartContext";
 
 export default function Checkout() {
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart } = useCartContext();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -99,7 +101,10 @@ export default function Checkout() {
 
         <div className="flex justify-between items-center">
           <p className="font-bold text-lg">
-            Total: <span className="text-blue-600">${total.toFixed(2)}</span>
+            Total:{" "}
+            <span className="text-blue-600">
+              {formatPrice(total.toFixed(2))}
+            </span>
           </p>
           <button
             type="submit"

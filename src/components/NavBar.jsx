@@ -14,7 +14,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-2xl font-bold text-blue-600">
-          Shoes-villa
+          <h1 className="text-4xl font-bold text-black tracking-wide">
+            ShoeMarketHub
+          </h1>
         </Link>
 
         {/* Desktop Nav */}
@@ -22,6 +24,7 @@ export default function Navbar() {
           <Link to="/" className="hover:text-blue-600">
             Home
           </Link>
+
           <Link to="/shop" className="hover:text-blue-600">
             Shop
           </Link>
@@ -33,6 +36,12 @@ export default function Navbar() {
                 {cart.length}
               </span>
             )}
+          </Link>
+          <Link to="/signup" className="hover:text-blue-600">
+            Signup
+          </Link>
+          <Link to="/login" className="hover:text-blue-600">
+            login
           </Link>
         </nav>
 
