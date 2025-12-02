@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
 
       <button
         onClick={() => addToCart(product)}
-        className="mt-4 w-full bg-blue-600 cursor-pointer text-white py-2 rounded-md hover:bg-blue-700 transition"
+        className="mt-4 w-full bg-indigo-600 cursor-pointer text-white py-2 rounded-md hover:bg-indigo-800 transition"
       >
         Add to Cart
       </button>

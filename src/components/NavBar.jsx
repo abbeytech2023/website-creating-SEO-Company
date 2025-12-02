@@ -76,7 +76,7 @@ export default function Navbar() {
           <Link
             to="/cart"
             onClick={() => setIsOpen(false)}
-            className="block hover:text-blue-600 flex items-center"
+            className="block hover:text-blue-600 items-center"
           >
             <ShoppingCart className="h-5 w-5 mr-1" />
             Cart
@@ -85,6 +85,20 @@ export default function Navbar() {
                 {cart.length}
               </span>
             )}
+          </Link>
+          <Link
+            to="/signup"
+            onClick={() => setIsOpen(false)}
+            className="block hover:text-blue-600 items-center"
+          >
+            Signup
+          </Link>
+          <Link
+            to="/login"
+            onClick={() => setIsOpen(false)}
+            className="block hover:text-blue-600 items-center"
+          >
+            Login
           </Link>
         </div>
       )}

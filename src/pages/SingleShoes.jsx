@@ -20,7 +20,7 @@ export default function ProductDetail() {
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center p-6">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center p-6">
       {/* IMAGE */}
       <img
         src={product.image}
@@ -31,14 +31,14 @@ export default function ProductDetail() {
       {/* INFO */}
       <div className="mt-6 w-full max-w-md">
         <h1 className="text-2xl font-bold">{product.name}</h1>
-        <p className="text-sm text-gray-400">Store: {product.store}</p>
-        <p className="text-xl mt-2 text-yellow-400">
+        <p className="text-sm text-gray-600">Store: {product.store}</p>
+        <p className="text-xl mt-2 text-indigo-700 font-semibold">
           ₦{product.price.toLocaleString()}
         </p>
 
         {/* SIZE SELECTOR */}
         <div className="mt-4">
-          <p className="mb-2 text-gray-300">Select size:</p>
+          <p className="mb-2 text-gray-700">Select size:</p>
           <div className="flex gap-2 flex-wrap">
             {product.sizes.map((s) => (
               <button
@@ -47,7 +47,7 @@ export default function ProductDetail() {
                 className={`px-4 py-2 rounded-lg border ${
                   selectedSize === s
                     ? "bg-yellow-400 text-black border-yellow-400"
-                    : "border-gray-600"
+                    : "border-gray-300 text-gray-800"
                 }`}
               >
                 {s}
@@ -58,25 +58,25 @@ export default function ProductDetail() {
 
         {/* QUANTITY SELECTOR */}
         <div className="mt-6 flex items-center gap-4">
-          <p className="text-gray-300">Quantity:</p>
-          <div className="flex items-center gap-3 bg-gray-900 px-4 py-2 rounded-lg border border-gray-700">
-            <button onClick={decrease} className="text-xl">
+          <p className="text-gray-700">Quantity:</p>
+          <div className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-lg border border-gray-300">
+            <button onClick={decrease} className="text-xl font-bold">
               −
             </button>
-            <span className="text-lg">{quantity}</span>
-            <button onClick={increase} className="text-xl">
+            <span className="text-lg font-medium">{quantity}</span>
+            <button onClick={increase} className="text-xl font-bold">
               +
             </button>
           </div>
         </div>
 
         {/* DESCRIPTION */}
-        <p className="mt-6 text-gray-400 leading-relaxed">
+        <p className="mt-6 text-gray-600 leading-relaxed">
           {product.description}
         </p>
 
         {/* BUTTON */}
-        <button className="w-full mt-8 bg-yellow-400 text-black font-bold py-3 rounded-xl text-lg hover:opacity-90 transition">
+        <button className="w-full mt-8 bg-indigo-600 text-#fff font-bold py-3 rounded-xl text-lg hover:opacity-90 transition">
           Add to Cart
         </button>
       </div>

@@ -43,7 +43,7 @@ export default function App() {
           <Route path="orderpage" element={<OrdersPage />} />
         </Routes>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

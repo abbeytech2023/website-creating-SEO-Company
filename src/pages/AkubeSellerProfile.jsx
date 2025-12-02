@@ -76,10 +76,10 @@ export default function AkubeSellerProfile() {
 
             <div className="p-2">
               <p className="font-medium text-sm">{p.name}</p>
-              <p className="font-bold text-green-600 text-sm">{p.price}</p>
+              <p className="font-bold text-indigo-600 text-sm">{p.price}</p>
 
-              <button className="mt-2 w-full bg-black text-white text-sm px-3 py-1 rounded hover:bg-gray-800">
-                Call Seller
+              <button className="mt-2 w-full bg-indigo-600 text-white text-sm px-3 py-1 rounded hover:bg-indigo-800">
+                Add to Cart
               </button>
             </div>
           </div>
