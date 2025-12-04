@@ -1,7 +1,7 @@
 import { supabase } from "./supabaseClients";
 
 export async function getShoes() {
-  const { data, error } = await supabase.from("Shoes").select("*");
+  const { data, error } = await supabase.from("Footwear").select("*");
 
   if (error) {
     console.log(error);
@@ -14,7 +14,7 @@ export async function getShoes() {
 
 export async function getSingleShoes(id) {
   const { data, error } = await supabase
-    .from("Shoes")
+    .from("Footwear")
     .select("*")
     .eq("id", id)
     .single();

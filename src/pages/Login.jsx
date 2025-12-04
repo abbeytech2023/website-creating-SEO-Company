@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
+import SpinnerMini from "../components/SpinnerMini";
+import FormRow from "../components/FormRow";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const { register, getValues, reset, formState, handleSubmit } = useForm();
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const { login, isPending } = useLogin();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login submitted:", formData);
+  const onSubmit = ({ email, password }) => {
+    login({ email, password });
   };
 
   return (
@@ -52,45 +47,42 @@ export default function Login() {
             Login
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* EMAIL */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Email address
-              </label>
+            <FormRow label="Email Address">
               <input
                 type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
+                {...register("email", { required: "enter your email address" })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
                 placeholder="you@example.com"
               />
-            </div>
+            </FormRow>
 
             {/* PASSWORD */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Password
-              </label>
+            <FormRow label="Password">
               <input
+                minLength="6"
                 type="password"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
+                id="password"
+                disabled={isPending}
+                placeholder="Enter Password"
                 className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
-                placeholder="Enter password"
+                {...register("password", {
+                  required: "This field is required",
+                  minLength: {
+                    value: 6,
+                    message: "password needs a minimum of 8 characters",
+                  },
+                })}
               />
-            </div>
+            </FormRow>
 
             {/* SUBMIT BUTTON */}
             <button
               type="submit"
               className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:opacity-90 transition tracking-wide"
             >
-              Login
+              {isPending ? <SpinnerMini /> : "Login"}
             </button>
           </form>
 

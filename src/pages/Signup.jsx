@@ -1,26 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import SpinnerMini from "../components/SpinnerMini";
+import { useForm } from "react-hook-form";
+import FormRow from "../components/FormRow";
+import { useSignup } from "../hooks/useSignup";
 
 export default function Signup() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    category: "",
-    phone: "",
-    location: "",
-  });
+  const { register, handleSubmit, getValues, formState } = useForm();
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const { signup, isPending } = useSignup();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signup submitted:", formData);
+  const { errors } = formState;
+
+  const onSubmit = (data) => {
+    signup({ ...data });
+    console.log("Signup submitted:", { ...data });
   };
 
   return (
@@ -44,7 +38,7 @@ export default function Signup() {
         </div>
       </div>
 
-      {/* RIGHT PANEL WITH FORM & SUBTLE BACKGROUND IMAGE */}
+      {/* RIGHT PANEL */}
       <div
         className="flex justify-center items-center w-full md:w-1/2 px-8 py-14 bg-cover bg-center"
         style={{
@@ -57,111 +51,111 @@ export default function Signup() {
             Create Your Account
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Full name / Store name
-              </label>
+            <FormRow label="Full-Name" error={errors?.name?.message}>
               <input
                 type="text"
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
+                {...register("fullName", {
+                  required: "your full name is required",
+                })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
                 placeholder="Abdul Vintage Collection"
               />
-            </div>
+            </FormRow>
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
-                placeholder="Enter password"
-              />
-            </div>
-
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Business category
-              </label>
-              <select
-                name="category"
-                required
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
-              >
-                <option value="">Choose one</option>
-                <option value="akube">Akube seller</option>
-                <option value="shoemaker">Shoemaker</option>
-              </select>
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Phone number (WhatsApp)
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                required
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
-                placeholder="+234..."
-              />
-            </div>
-
-            {/* Location */}
-            <div>
-              <label className="block text-sm font-medium text-white/70">
-                Store location
-              </label>
+            {/* Store Name */}
+            <FormRow label="Store name" error={errors?.storeName?.message}>
               <input
                 type="text"
-                name="location"
-                required
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white focus:ring-2 focus:ring-white/30 outline-none"
+                {...register("businessName", {
+                  required: "Your store name is required",
+                })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+                placeholder="Abdul Vintage Collection"
+              />
+            </FormRow>
+
+            {/* Email */}
+            <FormRow label="Email address" error={errors?.email?.message}>
+              <input
+                type="email"
+                {...register("email", { required: "enter your email address" })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+                placeholder="you@example.com"
+              />
+            </FormRow>
+
+            {/* Password */}
+            <FormRow label="password">
+              <input
+                type="password"
+                {...register("password", { required: true })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+                placeholder="Enter password"
+              />
+            </FormRow>
+            <FormRow
+              label="Confirm password"
+              error={errors?.passwordConfirm?.message}
+            >
+              <input
+                minLength="8"
+                type="password"
+                id="passwordConfirm"
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+                placeholder="confirm your passwoed"
+                name="password"
+                {...register("passwordConfirm", {
+                  validate: (value) => {
+                    const password = getValues().password;
+                    if (value != password) return "password needs to match";
+                  },
+                })}
+              />
+            </FormRow>
+
+            {/* Category */}
+            <FormRow label="Vendor/Shopper">
+              <select
+                {...register("role", { required: true })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+              >
+                <option value="">Choose one</option>
+                <option value="vendor-akube-store">Akube seller</option>
+                <option value="vendor-shoe-maker">Shoemaker</option>
+                <option value="shopper">Shopper</option>
+              </select>
+            </FormRow>
+
+            {/* Phone */}
+            <FormRow label="Phone number (WhatsApp)">
+              <input
+                type="tel"
+                {...register("phone", { required: true })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
+                placeholder="+234..."
+              />
+            </FormRow>
+
+            {/* Location */}
+            <FormRow label="Store Location" error={errors?.location?.message}>
+              <input
+                type="text"
+                {...register("storeAddress", {
+                  required: "The location of your store is required",
+                })}
+                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
                 placeholder="Tejuosho Market, Lagos"
               />
-            </div>
+            </FormRow>
 
             {/* Submit */}
             <button
               type="submit"
               className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:opacity-90 transition tracking-wide"
             >
-              Sign Up
+              {isPending ? <SpinnerMini /> : "Sign Up"}
             </button>
           </form>
 
