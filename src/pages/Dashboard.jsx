@@ -11,7 +11,7 @@ export default function Dashboard() {
   const [vendor, setVendor] = useState(null);
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   // const {user} = useAuthContext()
   // console.log(user);
 
@@ -58,7 +58,7 @@ export default function Dashboard() {
     fetchVendorData();
   }, []);
 
-  if (loading) return <p className="text-center mt-20">Loading...</p>;
+  // if (loading) return <p className="text-center mt-20">Loading...</p>;
 
   return (
     <div className="min-h-screen bg-[#faf7f2] p-8">
