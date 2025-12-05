@@ -1,13 +1,47 @@
-export default function DashboardProfile({ vendor }) {
-  return (
-    <div className="bg-white rounded-2xl shadow p-6 mb-8 flex justify-between items-center">
-      <div>
-        <h2 className="text-xl font-serif text-black mb-2">Store Profile</h2>
-        <p className="text-gray-600">Update store info and settings</p>
-      </div>
-      <button className="px-6 py-3 bg-[#d4af37] text-black rounded-xl shadow hover:opacity-90">
-        Edit Profile
-      </button>
-    </div>
-  );
+import { useState } from "react";
+
+const vendorFromSupabase = {
+  id: "123",
+  businessName: "Abbey Luxury Shoes",
+  bio: "Premium handmade footwear from Abeokuta.",
+  logo_url: "/sample-logo.jpg",
+};
+
+export default function DashboardHeader({ vendor }) {
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openNewShoe, setOpenNewShoe] = useState(false);
+
+  // Prefilled edit form (from Supabase vendor object)
+  const [editForm, setEditForm] = useState({
+    businessName: vendor?.businessName,
+    bio: vendor?.bio,
+    logo_url: vendor?.logo_url,
+  });
+
+  // New shoe upload form
+  const [shoeForm, setShoeForm] = useState({
+    name: "",
+    price: "",
+    image: "",
+    description: "",
+  });
+
+  const handleEditChange = (e) => {
+    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  };
+
+  const handleShoeChange = (e) => {
+    setShoeForm({ ...shoeForm, [e.target.name]: e.target.value });
+  };
+
+  const saveProfile = () => {
+    console.log("Saving to Supabase:", editForm);
+    setOpenEdit(false);
+  };
+
+  const uploadShoe = () => {
+    console.log("Uploading shoe:", shoeForm);
+    setOpenNewShoe(false);
+  };
+  return <></>;
 }
