@@ -53,7 +53,11 @@ export default function Signup() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Full Name */}
-            <FormRow label="Full-Name" error={errors?.name?.message}>
+            <FormRow
+              text="white"
+              label="Full name"
+              error={errors?.name?.message}
+            >
               <input
                 type="text"
                 {...register("fullName", {
@@ -65,7 +69,11 @@ export default function Signup() {
             </FormRow>
 
             {/* Store Name */}
-            <FormRow label="Store name" error={errors?.storeName?.message}>
+            <FormRow
+              text="white"
+              label="Store name"
+              error={errors?.storeName?.message}
+            >
               <input
                 type="text"
                 {...register("businessName", {
@@ -77,7 +85,11 @@ export default function Signup() {
             </FormRow>
 
             {/* Email */}
-            <FormRow label="Email address" error={errors?.email?.message}>
+            <FormRow
+              text="white"
+              label="Email address"
+              error={errors?.email?.message}
+            >
               <input
                 type="email"
                 {...register("email", { required: "enter your email address" })}
@@ -87,7 +99,7 @@ export default function Signup() {
             </FormRow>
 
             {/* Password */}
-            <FormRow label="password">
+            <FormRow text="white" label="password">
               <input
                 type="password"
                 {...register("password", { required: true })}
@@ -96,6 +108,7 @@ export default function Signup() {
               />
             </FormRow>
             <FormRow
+              text="white"
               label="Confirm password"
               error={errors?.passwordConfirm?.message}
             >
@@ -116,7 +129,7 @@ export default function Signup() {
             </FormRow>
 
             {/* Category */}
-            <FormRow label="Vendor/Shopper">
+            <FormRow text="white" label="Vendor/Shopper">
               <select
                 {...register("role", { required: true })}
                 className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
@@ -129,7 +142,7 @@ export default function Signup() {
             </FormRow>
 
             {/* Phone */}
-            <FormRow label="Phone number (WhatsApp)">
+            <FormRow text="white" label="Phone number (WhatsApp)">
               <input
                 type="tel"
                 {...register("phone", { required: true })}
@@ -139,7 +152,11 @@ export default function Signup() {
             </FormRow>
 
             {/* Location */}
-            <FormRow label="Store Location" error={errors?.location?.message}>
+            <FormRow
+              text="white"
+              label="Store Location"
+              error={errors?.location?.message}
+            >
               <input
                 type="text"
                 {...register("storeAddress", {

@@ -1,13 +1,17 @@
 // import Input from "@/app/_components/Input";
 
-function FormRow({ children, label, error, styles }) {
+function FormRow({ text, children, label, error, styles }) {
   return (
     <div
       className={
-        styles ? "hidden" : `flex relative flex-col gap-2 mb-4 text-[0.7rem]`
+        styles ? "hidden" : `flex relative flex-col gap-2 mb-4 text-[0.9rem]`
       }
     >
-      {label && <Label htmlFor={children.props?.id}>{label}</Label>}
+      {label && (
+        <Label text={text} htmlFor={children.props?.id}>
+          {label}
+        </Label>
+      )}
       {children}
       <p className="w-[9rem] text-center mx-auto">
         {error && <Error>{error}</Error>}
@@ -18,9 +22,11 @@ function FormRow({ children, label, error, styles }) {
 
 export default FormRow;
 
-function Label({ children }) {
+function Label({ text, children }) {
   return (
-    <div className="block text-sm font-medium text-white/70">{children}</div>
+    <div className={`  block text-sm font-medium text-${text} `}>
+      {children}
+    </div>
   );
 }
 

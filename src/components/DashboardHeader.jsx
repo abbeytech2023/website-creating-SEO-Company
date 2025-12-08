@@ -1,48 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUpdateUserData } from "../hooks/updateUserProfile";
+import { useForm } from "react-hook-form";
+import FormRow from "./FormRow";
+import EditProfileForm from "./EditProfileForm";
+import AddNewShoes from "./AddNewShoes";
 
 export default function DashboardHeader({ vendor }) {
-  const [openEdit, setOpenEdit] = useState(false);
   const [openNewShoe, setOpenNewShoe] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
-  // Prefilled edit form (from Supabase vendor object)
-  const [editForm, setEditForm] = useState({
-    businessName: vendor?.businessName,
-    bio: vendor?.bio,
-    email: vendor?.email,
-    fullName: vendor?.fullName,
-    phone: vendor?.phone,
-    logo_url: vendor?.logo_url,
-  });
+  // const handleEditChange = (e) => {
+  //   setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  // };
 
-  console.log(vendor);
-  console.log(editForm?.phone);
-
-  // New shoe upload form
-  const [shoeForm, setShoeForm] = useState({
-    name: "",
-    email: "",
-    price: "",
-    image: "",
-    description: "",
-  });
-
-  const handleEditChange = (e) => {
-    setEditForm({ ...editForm, [e.target.name]: e.target.value });
-  };
-
-  const handleShoeChange = (e) => {
-    setShoeForm({ ...shoeForm, [e.target.name]: e.target.value });
-  };
-
-  const saveProfile = () => {
-    console.log("Saving to Supabase:", editForm);
-    setOpenEdit(false);
-  };
-
-  const uploadShoe = () => {
-    console.log("Uploading shoe:", shoeForm);
-    setOpenNewShoe(false);
-  };
   return (
     <>
       <div className=" bg-white rounded-2xl shadow p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -82,154 +52,14 @@ export default function DashboardHeader({ vendor }) {
       </div>
 
       {/* EDIT PROFILE MODAL */}
-      {openEdit && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white p-6 h-5/6 overflow-y-auto rounded-2xl w-full max-w-md shadow-lg relative">
-            <button
-              onClick={() => setOpenEdit(false)}
-              className="absolute right-4 top-3 text-gray-600"
-            >
-              ✕
-            </button>
+      <EditProfileForm
+        vendor={vendor}
+        openEdit={openEdit}
+        setOpenEdit={setOpenEdit}
+      />
 
-            <h2 className="text-xl font-serif mb-4">Edit Profile</h2>
-
-            <div className="space-y-4">
-              <div>
-                <label>Business Name</label>
-                <input
-                  name="businessName"
-                  className="w-full border p-2 rounded"
-                  value={editForm?.businessName}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <div>
-                <label>Bio</label>
-                <textarea
-                  name="bio"
-                  className="w-full border p-2 rounded h-24"
-                  value={editForm?.bio}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <div>
-                <label>Email</label>
-                <input
-                  name="email"
-                  className="w-full border p-2 rounded"
-                  value={editForm?.email}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <div>
-                <label>Full Name</label>
-                <input
-                  name="name"
-                  className="w-full border p-2 rounded"
-                  value={editForm.fullName}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <div>
-                <label>Phone</label>
-                <input
-                  name="phone"
-                  className="w-full border p-2 rounded"
-                  value={editForm.phone}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <div>
-                <label>Logo URL</label>
-                <input
-                  name="logo_url"
-                  className="w-full border p-2 rounded"
-                  value={editForm.logo_url}
-                  onChange={handleEditChange}
-                />
-              </div>
-
-              <button
-                onClick={saveProfile}
-                className="w-full bg-black text-white py-2 rounded-xl"
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {openNewShoe && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white p-6 rounded-2xl w-full max-w-md shadow-lg relative">
-            <button
-              onClick={() => setOpenNewShoe(false)}
-              className="absolute right-4 top-3 text-gray-600"
-            >
-              ✕
-            </button>
-
-            <h2 className="text-xl font-serif mb-4">Upload New Shoe</h2>
-
-            <div className="space-y-4">
-              <div>
-                <label>Shoe Name</label>
-                <input
-                  name="name"
-                  className="w-full border p-2 rounded"
-                  value={shoeForm.name}
-                  onChange={handleShoeChange}
-                />
-              </div>
-
-              <div>
-                <label>Price</label>
-                <input
-                  name="price"
-                  type="number"
-                  className="w-full border p-2 rounded"
-                  value={shoeForm.price}
-                  onChange={handleShoeChange}
-                />
-              </div>
-
-              <div>
-                <label>Image URL</label>
-                <input
-                  name="image"
-                  className="w-full border p-2 rounded"
-                  value={shoeForm.image}
-                  onChange={handleShoeChange}
-                />
-              </div>
-
-              <div>
-                <label>Description</label>
-                <textarea
-                  name="description"
-                  className="w-full border p-2 rounded h-24"
-                  value={shoeForm.description}
-                  onChange={handleShoeChange}
-                ></textarea>
-              </div>
-
-              <button
-                onClick={uploadShoe}
-                className="w-full bg-[#d4af37] text-white py-2 rounded-xl"
-              >
-                Upload Shoe
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ADD NEW SHOES MODAL */}
+      <AddNewShoes openNewShoe={openNewShoe} setOpenNewShoe={setOpenNewShoe} />
     </>
   );
 }

@@ -52,7 +52,7 @@ export default function Dashboard() {
 
       setOrders(ordersData);
 
-      setLoading(false);
+      // setLoading(false);
     }
 
     fetchVendorData();
