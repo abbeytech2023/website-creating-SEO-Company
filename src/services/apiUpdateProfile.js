@@ -1,7 +1,7 @@
 import { supabase } from "./supabaseClients";
 
 export default async function uploadProfilePicture(userId, newImage) {
-  // console.log(newImage.name, userId);
+  console.log(userId, newImage);
 
   try {
     if (!newImage) {
@@ -36,10 +36,11 @@ export default async function uploadProfilePicture(userId, newImage) {
       .getPublicUrl(filePath);
 
     const publicUrl = data.publicUrl;
+    console.log(publicUrl);
 
     //Update user row in db
     const { error: updateError } = await supabase
-      .from("Users")
+      .from("users")
       .update({ image: publicUrl })
       .eq("id", userId);
 

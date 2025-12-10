@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { useUpdateUserData } from "../hooks/updateUserProfile";
-import { useForm } from "react-hook-form";
-import FormRow from "./FormRow";
 import EditProfileForm from "./EditProfileForm";
 import AddNewShoes from "./AddNewShoes";
+import ProfileDisplayPicture from "./ProfileDisplayPicture";
+import { useFetchUsersWithId } from "../hooks/useFetchUsers";
+import { useAuthContext } from "../hooks/useAuthContext";
+import SpinnerMini from "./SpinnerMini";
 
 export default function DashboardHeader({ vendor }) {
   const [openNewShoe, setOpenNewShoe] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+
+  const { user } = useAuthContext();
+  const { authenticatedUser } = useFetchUsersWithId(user?.id);
 
   // const handleEditChange = (e) => {
   //   setEditForm({ ...editForm, [e.target.name]: e.target.value });
@@ -17,11 +22,12 @@ export default function DashboardHeader({ vendor }) {
     <>
       <div className=" bg-white rounded-2xl shadow p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Logo + Info */}
-        <div className="flex flex-col items-center md:flex-row md:items-start gap-4">
-          <img
+        <div className="flex bg-red flex-col items-center md:flex-row md:items-start gap-4">
+          {/* <img
             src={vendor?.logo_url}
             className="w-24 h-24 rounded-full border-4 border-white shadow"
-          />
+          /> */}
+          <div>{user && <ProfileDisplayPicture />}</div>
 
           <div className="text-center md:text-left">
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-black">
@@ -37,7 +43,7 @@ export default function DashboardHeader({ vendor }) {
         <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
           <button
             onClick={() => setOpenNewShoe(true)}
-            className="bg-[#d4af37] text-white px-4 py-2 rounded-xl shadow hover:opacity-90 transition"
+            className="bg-[indigo] text-white px-4 py-2 rounded-xl shadow hover:opacity-90 transition"
           >
             + Upload New Shoe
           </button>

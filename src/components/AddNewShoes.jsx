@@ -1,35 +1,47 @@
 import { useState } from "react";
 import FileInput from "./FileInput";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthContext } from "../hooks/useAuthContext";
+import toast from "react-hot-toast";
+import SpinnerMini from "./SpinnerMini";
 import { addShoesForSaleApi } from "../services/ApiForSale";
+import { useNavigate } from "react-router-dom";
 
 export default function AddNewShoes({ openNewShoe, setOpenNewShoe }) {
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState, reset } = useForm();
+  const { user } = useAuthContext();
+  const businessName = user?.user_metadata?.businessName;
+
+  const id = user?.id;
+  const QueryClient = useQueryClient();
+
+  const navigate = useNavigate();
 
   const { errors } = formState;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newShoe) => addShoesForSaleApi(newShoe),
     onSuccess: () => {
-      toast.success("Footwear successfully added ");
-      navigate("/myaccount/dashboard");
+      toast.success("footwear successfully added ");
+      setOpenNewShoe(false);
+      navigate("/dashboard");
       QueryClient.invalidateQueries({ queryKey: ["Shoes"] });
       reset();
     },
-    onError: () => {
-      toast.error("property could not be added");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
   const onSubmit = (data) => {
-    mutate({ ...data, image: data.image[0] });
-    console.log(data);
-  };
-
-  const uploadShoe = () => {
-    console.log("Uploading shoe:", shoeForm);
-    setOpenNewShoe(false);
+    mutate({
+      ...data,
+      store: businessName,
+      uid: id,
+      image: data.image[0],
+      image1: data.image1[0],
+    });
   };
 
   return (
@@ -108,9 +120,9 @@ export default function AddNewShoes({ openNewShoe, setOpenNewShoe }) {
                 ></textarea>
               </div>
 
-              <div label="property photo" className="">
+              <div className="">
                 <label className="mb-16" htmlFor="">
-                  Upload photo
+                  Upload photo 1
                 </label>
                 <FileInput
                   id="image"
@@ -122,13 +134,27 @@ export default function AddNewShoes({ openNewShoe, setOpenNewShoe }) {
                   })}
                 />
               </div>
+              <div label="Shoe photo 2" className="">
+                <label className="mb-16" htmlFor="">
+                  Upload photo 2
+                </label>
+                <FileInput
+                  id="image1"
+                  accept="image/*"
+                  type="file"
+                  className="w-full border p-2 rounded h-24 flex mb-7"
+                  {...register("image1", {
+                    required: "This field is required",
+                  })}
+                />
+              </div>
             </div>
 
             <button
-              onClick={uploadShoe}
-              className="w-full bg-[#d4af37] text-white py-2 rounded-xl"
+              // onClick={uploadShoe}
+              className="w-full bg-[black] text-white py-2 rounded-xl cursor-pointer"
             >
-              Upload Shoe
+              {isPending ? <SpinnerMini /> : "Upload Shoe"}
             </button>
           </form>
         </div>

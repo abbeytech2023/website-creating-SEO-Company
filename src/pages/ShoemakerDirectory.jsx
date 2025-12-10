@@ -109,8 +109,8 @@ export default function ShoemakersDirectory() {
             className="border rounded-xl bg-white shadow-sm p-4 hover:shadow-lg transition"
           >
             <img
-              // src={maker.avatar}
-              // alt={maker.name}
+              src={maker.image}
+              alt={maker.name}
               className="w-full h-40 object-cover rounded-lg mb-3"
             />
             <h2 className="font-semibold text-xl">{maker.businessName}</h2>

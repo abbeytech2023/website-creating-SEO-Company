@@ -12,8 +12,8 @@ export default function DashboardProducts({ products }) {
               src={p?.image}
               className="rounded-lg mb-3 w-full h-40 object-cover"
             />
-            <p className="font-semibold text-black">{p.name}</p>
-            <p className="text-[#d4af37] font-bold">{formatPrice(p.price)}</p>
+            <p className="font-semibold text-black uppercase">{p.name}</p>
+            <p className="text-[indigo] font-bold">{formatPrice(p.price)}</p>
           </div>
         ))}
       </div>

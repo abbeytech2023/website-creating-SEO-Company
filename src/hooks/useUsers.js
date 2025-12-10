@@ -12,7 +12,7 @@ export function useGetShoeMakers() {
 
 export function useGetAkubeStores() {
   const { data } = useQuery({
-    queryKey: ["shoe-makers"],
+    queryKey: ["akube-stores"],
     queryFn: getAkubeStores,
   });
 

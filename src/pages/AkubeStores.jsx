@@ -110,12 +110,14 @@ export default function AkubeStores() {
             className="border rounded-xl bg-white shadow-sm p-4 hover:shadow-lg transition"
           >
             <img
-              // src={maker.avatar}
-              // alt={maker.name}
+              src={maker.image}
+              alt={maker.name}
               className="w-full h-40 object-cover rounded-lg mb-3"
             />
-            <h2 className="font-semibold text-xl">{maker.businessName}</h2>
-            <p className="text-gray-600">{maker.state}</p>
+            <h2 className="font-semibold text-xl uppercase">
+              {maker.businessName}
+            </h2>
+            <p className="text-gray-600 mb-5">{maker.state}</p>
             {/* <p className="text-gray-800 font-medium mt-2">
               ⭐ {maker.rating} / 5.0
             </p> */}
@@ -125,7 +127,7 @@ export default function AkubeStores() {
 
             <Link
               to="/akube-seller-profile"
-              className="mt-4 bg-black text-white py-2 px-4 rounded-lg w-full"
+              className="mt-8 bg-black text-white py-2 px-4 rounded-lg w-full"
             >
               View Shop →
             </Link>

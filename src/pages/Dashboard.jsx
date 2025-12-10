@@ -42,7 +42,6 @@ export default function Dashboard() {
         .eq("uid", vendorData?.uid);
 
       setProducts(productsData);
-      console.log(productsData);
 
       // Get orders
       const { data: ordersData } = await supabase
