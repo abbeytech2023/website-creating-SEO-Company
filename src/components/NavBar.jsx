@@ -26,9 +26,11 @@ export default function Navbar() {
           <Link to="/" className="hover:text-blue-600">
             Home
           </Link>
-          <Link to="/dashboard" className="block hover:text-blue-600">
-            Dashboard
-          </Link>
+          {user && (
+            <Link to="/dashboard" className="block hover:text-blue-600">
+              Dashboard
+            </Link>
+          )}
 
           <Link to="/shop" className="hover:text-blue-600">
             Shop

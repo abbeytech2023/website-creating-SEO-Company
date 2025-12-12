@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 // import { useCart } from "../context/CartContext";
 import { useCartContext } from "../hooks/useCartContext";
 import { formatPrice } from "../utility/utility";
+import SpinnerMini from "./SpinnerMini";
 
 export default function ProductCard({ product }) {
   console.log(product);
@@ -11,11 +12,11 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 text-center hover:shadow-lg transition">
-      <Link to={`/singleshoes/${product.id}`}>
+      <Link to={`/productdetails/${product.id}`}>
         <img
           src={product?.image}
           alt={product?.name}
-          className="w-full h-48 object-cover rounded-md mb-4"
+          className="w-full h-80 object-cover rounded-md mb-4"
         />
         <h3 className="font-semibold text-lg uppercase">{product?.name}</h3>
         <p className="text-blue-600 font-bold">{formatPrice(product?.price)}</p>

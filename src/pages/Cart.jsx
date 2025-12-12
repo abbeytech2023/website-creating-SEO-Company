@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 
 export default function Cart() {
-  const { cart, removeFromCart, clearCart } = useCartContext();
+  const { cart, removeFromCart, clearCart, addToCart } = useCartContext();
+  console.log(cart);
 
   const total = cart.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace("$", ""));
+    const price = parseFloat(item.price);
     return sum + price * item.qty; // multiply by qty
   }, 0);
 
@@ -34,11 +35,13 @@ export default function Cart() {
             className="flex items-center justify-between bg-white shadow p-4 rounded-lg"
           >
             <div className="flex items-center space-x-4">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-20 h-20 object-cover rounded-md"
-              />
+              <Link to={`/productdetails/${item.id}`}>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-20 h-20 object-cover rounded-md"
+                />
+              </Link>
               <div>
                 <h3 className="font-semibold">{item.name}</h3>
                 <p className="text-blue-600 font-bold">
@@ -46,18 +49,34 @@ export default function Cart() {
                 </p>
 
                 {/* SHOW QUANTITY HERE */}
-                <p className="text-gray-700">
+                {/* <p className="text-gray-700">
                   Qty: <span className="font-semibold">{item.qty}</span>
-                </p>
+                </p> */}
+
+                <div className="flex items-center gap-3">
+                  <span className="text-gray-700">Qty:</span>
+
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="px-2 py-1 bg-gray-200 rounded"
+                  >
+                    -
+                  </button>
+
+                  <span className="font-semibold">{item.qty}</span>
+
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="px-2 py-1 bg-gray-200 rounded"
+                  >
+                    +
+                  </button>
+                </div>
 
                 {/* SUBTOTAL PER ITEM */}
                 <p className="font-semibold text-green-600">
                   Subtotal:{" "}
-                  {formatPrice(
-                    (
-                      parseFloat(item.price.replace("$", "")) * item.qty
-                    ).toFixed(2)
-                  )}
+                  {formatPrice((parseFloat(item.price) * item.qty).toFixed(2))}
                 </p>
               </div>
             </div>
@@ -85,7 +104,7 @@ export default function Cart() {
         <p className="mb-4">
           Total:{" "}
           <span className="font-bold text-blue-600">
-            ${formatPrice(total.toFixed(2))}
+            {formatPrice(total.toFixed(2))}
           </span>
         </p>
 

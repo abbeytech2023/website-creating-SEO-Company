@@ -1,19 +1,17 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
-import SingleShoes from "./pages/SingleShoes";
 import Cart from "./pages/Cart";
 import AkubeStores from "./pages/AkubeStores";
 import Dashboard from "./pages/Dashboard";
 import Checkout from "./pages/Checkout";
+import ProductDetails from "./pages/ProductDetails";
 import Success from "./pages/Success";
 import OrdersPage from "./pages/OrderManagement";
 import AkubeSellerProfile from "./pages/AkubeSellerProfile";
-import Slippers from "./pages/Slippers";
 import Signup from "./pages/Signup";
 import ShoemakersDirectory from "./pages/ShoemakerDirectory";
 import ShoemakerProfile from "./pages/ShoeMakerProfile";
@@ -47,9 +45,8 @@ export default function App() {
                 element={<AkubeSellerProfile />}
               />
               <Route path="/akube-stores" element={<AkubeStores />} />
-              <Route path="/slippers" element={<Slippers />} />
               <Route path="dashboard" element={<Dashboard />} />
-              <Route path="/singleshoes/:id" element={<SingleShoes />} />
+              <Route path="/productdetails/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/success" element={<Success />} />

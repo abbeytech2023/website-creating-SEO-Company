@@ -92,7 +92,7 @@ export default function ProfileDisplayPicture() {
   return (
     <div className="flex items-center justify-center bg-gray-100 mt-28">
       {!authUser && (
-        <div className=" w-100">
+        <div className="w-100">
           <SpinnerMini />
         </div>
       )}

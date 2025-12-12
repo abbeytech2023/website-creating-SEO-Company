@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { useUpdateUserData } from "../hooks/updateUserProfile";
 import EditProfileForm from "./EditProfileForm";
 import AddNewShoes from "./AddNewShoes";
 import ProfileDisplayPicture from "./ProfileDisplayPicture";
 import { useFetchUsersWithId } from "../hooks/useFetchUsers";
 import { useAuthContext } from "../hooks/useAuthContext";
-import SpinnerMini from "./SpinnerMini";
 
 export default function DashboardHeader({ vendor }) {
   const [openNewShoe, setOpenNewShoe] = useState(false);
@@ -22,7 +20,7 @@ export default function DashboardHeader({ vendor }) {
     <>
       <div className=" bg-white rounded-2xl shadow p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Logo + Info */}
-        <div className="flex bg-red flex-col items-center md:flex-row md:items-start gap-4">
+        <div className="flex bg-red flex-col  items-center md:flex-row md:items-start gap-4">
           {/* <img
             src={vendor?.logo_url}
             className="w-24 h-24 rounded-full border-4 border-white shadow"
@@ -30,7 +28,7 @@ export default function DashboardHeader({ vendor }) {
           <div>{user && <ProfileDisplayPicture />}</div>
 
           <div className="text-center md:text-left">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold text-black">
+            <h1 className="text-2xl md:text-3xl uppercase font-serif font-bold text-black">
               {vendor?.businessName}
             </h1>
             <p className="text-gray-600 text-sm md:text-base max-w-md">
