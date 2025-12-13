@@ -100,7 +100,7 @@ export default function ShoemakersDirectory() {
 
   return (
     <>
-      <h1 className="text-3xl md:text-4xl text-center mt-7 font-extrabold text-[#0B0B0B] tracking-tight">
+      <h1 className="text-3xl  md:text-4xl text-center mt-7 font-extrabold text-[#0B0B0B] tracking-tight">
         <span className=" px-3 py-1  inline-block">SHOE MAKERS</span>
       </h1>
       {!data && (
@@ -109,16 +109,16 @@ export default function ShoemakersDirectory() {
         </div>
       )}
       {data && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-6 p-6">
           {data?.map((maker) => (
             <div
               key={maker.id}
-              className="border rounded-xl bg-white shadow-sm hover:shadow-lg transition"
+              className=" bg-white shadow-sm hover:shadow-lg transition"
             >
               <img
                 src={maker.image}
                 alt={maker.name}
-                className="w-full h-full object-cover rounded-lg mb-3"
+                className="w-full h-80 object-cover rounded-lg mb-3"
               />
               <h2 className="font-semibold text-xl uppercase">
                 {maker.businessName}

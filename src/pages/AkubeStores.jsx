@@ -1,5 +1,4 @@
 // src/components/ShoemakersDirectory.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import { useGetAkubeStores } from "../hooks/useUsers";
 import SpinnerMini from "../components/SpinnerMini";
@@ -105,17 +104,17 @@ export default function AkubeStores() {
       </h1>
 
       {!data && (
-        <div className="h-screen flex items-center">
+        <div className="h-screen  flex items-center">
           <SpinnerMini />
         </div>
       )}
 
       {data && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+        <div className=" grid grid-cols-1 sm:grid-cols-2  gap-y-35  lg:grid-cols-3 gap-12 p-6">
           {data?.map((maker) => (
             <div
               key={maker.id}
-              className="border rounded-xl bg-white shadow-sm  hover:shadow-lg transition"
+              className="h-[80%] shadow-sm  hover:shadow-lg transition"
             >
               <img
                 src={maker.image}
@@ -126,12 +125,12 @@ export default function AkubeStores() {
                 {maker.businessName}
               </h2>
               <p className="text-gray-black mb-5">{maker.state}</p>
-              {/* <p className="text-gray-800 font-medium mt-2">
-              ⭐ {maker.rating} / 5.0
-            </p> */}
-              {/* <p className="text-gray-700 mb-4 text-sm">
-              {maker.products} products
-            </p> */}
+              <p className="text-gray-800 font-medium mt-2">
+                ⭐ {maker.rating} / 5.0
+              </p>
+              <p className="text-gray-700 mb-4 text-sm">
+                {maker.products} products
+              </p>
 
               <Link
                 to="/akube-seller-profile"
