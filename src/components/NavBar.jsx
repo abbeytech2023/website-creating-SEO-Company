@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IoCloseOutline } from "react-icons/io5";
+
 import { ShoppingCart } from "lucide-react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useCartContext } from "../hooks/useCartContext";
@@ -66,14 +68,24 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
 
-        <button
-          className="md:hidden flex flex-col space-y-1"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="w-6 h-0.5 bg-gray-800"></span>
-          <span className="w-6 h-0.5 bg-gray-800"></span>
-          <span className="w-6 h-0.5 bg-gray-800"></span>
-        </button>
+        {!isOpen && (
+          <button
+            className="md:hidden flex flex-col space-y-1"
+            onClick={() => setIsOpen(true)}
+          >
+            <span className="w-6 h-0.5 bg-gray-800"></span>
+            <span className="w-6 h-0.5 bg-gray-800"></span>
+            <span className="w-6 h-0.5 bg-gray-800"></span>
+          </button>
+        )}
+        {isOpen && (
+          <button
+            className="font-medium text-gray-700 text-2xl"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoCloseOutline />
+          </button>
+        )}
       </div>
 
       {/* Mobile Nav */}
@@ -82,7 +94,7 @@ export default function Navbar() {
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
-            className="blockhover:text-white hover:bg-indigo-700"
+            className="block hover:text-indigo-600"
           >
             Home
           </Link>
@@ -90,7 +102,7 @@ export default function Navbar() {
             <Link
               to="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="block hover:text-blue-600 hover:border rounded-xl"
+              className="block hover:text-indigo-600"
             >
               Dashboard
             </Link>
@@ -98,14 +110,14 @@ export default function Navbar() {
           <Link
             to="/shop"
             onClick={() => setIsOpen(false)}
-            className="block hover:text-white hover:bg-indigo-700"
+            className="block hover:text-indigo-600"
           >
             Shop
           </Link>
           <Link
             to="/cart"
             onClick={() => setIsOpen(false)}
-            className="block  items-center hover:text-white hover:bg-indigo-700"
+            className="block  items-center hover:text-indigo-600"
           >
             <ShoppingCart className="h-5 w-5 mr-1" />
             Cart

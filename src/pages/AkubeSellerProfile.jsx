@@ -75,7 +75,9 @@ export default function AkubeSellerProfile() {
       {/* PRODUCTS GRID */}
       <>
         {product?.length === 0 && (
-          <p className="">This Store currently have a product for sell</p>
+          <p className="text-center h-2/3 mt-16 text-2xl">
+            This Store currently has no product for display
+          </p>
         )}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {product &&

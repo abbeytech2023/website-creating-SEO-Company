@@ -149,12 +149,12 @@ export default function ShoemakerProfile() {
       {/* PRODUCTS GRID */}
       <>
         {shoemaker?.length === 0 && (
-          <p className="text-center mt-16 text-2xl">
-            This Store currently have a product for sell
+          <p className="text-center h-2/3 mt-16 text-2xl">
+            This Store currently has no product for display
           </p>
         )}
 
-        <div className="grid grid-cols-2 bg-red-600 md:grid-cols-4 gap-5 mt-16">
+        <div className="grid grid-cols-2  md:grid-cols-4 gap-5 mt-16">
           {shoemaker &&
             shoemaker?.map((p, i) => (
               <div
