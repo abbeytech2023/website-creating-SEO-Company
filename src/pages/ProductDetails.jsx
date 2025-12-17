@@ -4,7 +4,7 @@ import { supabase } from "../services/supabaseClients";
 import { useParams } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import toast from "react-hot-toast";
-import { capitalize } from "../utility/utility";
+import { capitalize, formatPrice } from "../utility/utility";
 
 export default function ProductDetails() {
   const { addToCart } = useCartContext();
@@ -56,7 +56,7 @@ export default function ProductDetails() {
               Store: {capitalize(product.store)}
             </p>
             <p className="text-xl mt-2 text-indigo-700 font-semibold">
-              ₦{product.price.toLocaleString()}
+              {formatPrice(product.price)}
             </p>
 
             {/* SIZE SELECTOR */}

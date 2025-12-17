@@ -15,15 +15,17 @@ export default function DashboardProducts({ products }) {
       </div>
 
       {products && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2  md:grid-cols-3 gap-6">
           {products.map((p) => (
-            <div key={p.id} className="bg-white rounded-xl shadow p-4">
+            <div key={p.id} className="bg-white rounded-xl shadow">
               <img
                 src={p?.image}
-                className="rounded-lg mb-3 w-full h-80 object-cover"
+                className="rounded-lg  mb-3 w-full h-80 object-cover"
               />
               <p className="font-semibold text-black uppercase">{p.name}</p>
-              <p className="text-[indigo] font-bold">{formatPrice(p.price)}</p>
+              <p className="w-[32rem] text-[indigo] font-bold">
+                {formatPrice(p.price)}
+              </p>
             </div>
           ))}
         </div>
