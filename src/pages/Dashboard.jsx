@@ -23,8 +23,6 @@ export default function Dashboard() {
 
       if (!user) return;
 
-      console.log(user?.id);
-
       // Get vendor info
       const { data: vendorData } = await supabase
         .from("users")

@@ -15,6 +15,7 @@ export function CartProvider({ children }) {
   const addToCart = (product) => {
     // setCart([...cart, product]);
     const existing = cart.find((item) => item.id === product.id);
+
     if (existing) {
       setCart(
         cart.map((item) =>

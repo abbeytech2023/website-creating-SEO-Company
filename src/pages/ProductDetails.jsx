@@ -3,6 +3,8 @@ import SpinnerMini from "../components/SpinnerMini";
 import { supabase } from "../services/supabaseClients";
 import { useParams } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
+import toast from "react-hot-toast";
+import { capitalize } from "../utility/utility";
 
 export default function ProductDetails() {
   const { addToCart } = useCartContext();
@@ -25,16 +27,11 @@ export default function ProductDetails() {
     fetchShoeDetails();
   }, []);
 
-  const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(null);
+  // const [quantity, setQuantity] = useState(1);
+  // const [selectedSize, setSelectedSize] = useState(null);
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
-
-  const capitalize = (str) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
 
   return (
     <>
@@ -55,7 +52,9 @@ export default function ProductDetails() {
           {/* INFO */}
           <div className="mt-6 w-full max-w-md">
             <h1 className="text-2xl font-bold uppercase">{product.name}</h1>
-            <p className="text-sm text-gray-600">Store: {product.store}</p>
+            <p className="text-sm mt-5 text-black">
+              Store: {capitalize(product.store)}
+            </p>
             <p className="text-xl mt-2 text-indigo-700 font-semibold">
               ₦{product.price.toLocaleString()}
             </p>
@@ -89,7 +88,10 @@ export default function ProductDetails() {
 
             {/* BUTTON */}
             <button
-              onClick={() => addToCart(product)}
+              onClick={() => {
+                addToCart(product);
+                toast.success("product added to cart");
+              }}
               className="w-full mt-8 bg-indigo-600 text-white font-bold py-3 rounded-xl text-lg hover:opacity-90 transition"
             >
               Add to Cart

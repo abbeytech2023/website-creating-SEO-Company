@@ -23,7 +23,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8 font-medium text-gray-700">
-          <Link to="/" className="hover:text-blue-600">
+          <Link to="/" className="hover:text-blue-600 ">
             Home
           </Link>
           {user && (
@@ -82,28 +82,30 @@ export default function Navbar() {
           <Link
             to="/"
             onClick={() => setIsOpen(false)}
-            className="block hover:text-blue-600"
+            className="blockhover:text-white hover:bg-indigo-700"
           >
             Home
           </Link>
-          <Link
-            to="/dashboard"
-            onClick={() => setIsOpen(false)}
-            className="block hover:text-blue-600"
-          >
-            Dashboard
-          </Link>
+          {user && (
+            <Link
+              to="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="block hover:text-blue-600 hover:border rounded-xl"
+            >
+              Dashboard
+            </Link>
+          )}
           <Link
             to="/shop"
             onClick={() => setIsOpen(false)}
-            className="block hover:text-blue-600"
+            className="block hover:text-white hover:bg-indigo-700"
           >
             Shop
           </Link>
           <Link
             to="/cart"
             onClick={() => setIsOpen(false)}
-            className="block hover:text-blue-600 items-center"
+            className="block  items-center hover:text-white hover:bg-indigo-700"
           >
             <ShoppingCart className="h-5 w-5 mr-1" />
             Cart

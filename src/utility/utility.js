@@ -10,5 +10,10 @@ export function formatDate(dateString) {
   return new Date(dateString).toLocaleDateString("en-NG", options);
 }
 
+export function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 // Example:
 console.log(formatDate("2025-09-10")); //"Sep 10, 2025"

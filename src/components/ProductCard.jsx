@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import { formatPrice } from "../utility/utility";
 import SpinnerMini from "./SpinnerMini";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ product }) {
-  console.log(product);
-
   const { addToCart } = useCartContext();
 
   return (
@@ -24,7 +23,10 @@ export default function ProductCard({ product }) {
       </Link>
 
       <button
-        onClick={() => addToCart(product)}
+        onClick={() => {
+          addToCart(product);
+          toast.success("product added to cart");
+        }}
         className="mt-4 w-full bg-indigo-600 cursor-pointer text-white py-2 rounded-md hover:bg-indigo-800 transition"
       >
         Add to Cart

@@ -36,15 +36,12 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/shoemakers" element={<ShoemakersDirectory />} />
+              <Route path="/shoe-maker/:id" element={<ShoemakerProfile />} />
+              <Route path="/akube-stores" element={<AkubeStores />} />
               <Route
-                path="/shoe-maker-profile"
-                element={<ShoemakerProfile />}
-              />
-              <Route
-                path="/akube-seller-profile"
+                path="/akube-stores/:id"
                 element={<AkubeSellerProfile />}
               />
-              <Route path="/akube-stores" element={<AkubeStores />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="/productdetails/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
@@ -64,7 +61,7 @@ export default function App() {
                   color: "#144c6f",
                 },
                 error: {
-                  duration: 3000,
+                  duration: 2000,
                 },
                 style: {
                   fontSize: "16px",

@@ -8,6 +8,7 @@ export default function Cart() {
 
   const total = cart.reduce((sum, item) => {
     const price = parseFloat(item.price);
+
     return sum + price * item.qty; // multiply by qty
   }, 0);
 
