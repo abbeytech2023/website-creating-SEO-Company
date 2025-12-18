@@ -3,8 +3,8 @@ import SpinnerMini from "./SpinnerMini";
 
 export default function DashboardProducts({ products }) {
   return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-serif mb-4">Your Products</h2>
+    <div className="mb-2">
+      <h2 className="text-2xl font-serif ">Your Products</h2>
 
       <div>
         {!products && (
@@ -20,7 +20,7 @@ export default function DashboardProducts({ products }) {
             <div key={p.id} className="bg-white rounded-xl shadow">
               <img
                 src={p?.image}
-                className="rounded-lg  mb-3 w-full h-80 object-cover"
+                className="rounded-lg  mb-3 w-full h-[50%] object-cover"
               />
               <p className="font-semibold text-black uppercase">{p.name}</p>
               <p className="w-[32rem] text-[indigo] font-bold">

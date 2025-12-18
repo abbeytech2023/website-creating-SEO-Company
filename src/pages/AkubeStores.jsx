@@ -29,7 +29,7 @@ export default function AkubeStores() {
               <img
                 src={maker.image}
                 alt={maker.name}
-                className="w-full h-full object-cover rounded-lg mb-3"
+                className="w-full h-70 object-cover rounded-lg mb-3"
               />
               <h2 className="mt-5 font-semibold text-xl uppercase">
                 {maker.businessName}

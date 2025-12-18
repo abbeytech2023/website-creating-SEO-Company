@@ -36,11 +36,14 @@ export default function Cart() {
             className="flex items-center justify-between bg-white shadow p-4 rounded-lg"
           >
             <div className="flex items-center space-x-4">
-              <Link to={`/productdetails/${item.id}`}>
+              <Link
+                to={`/productdetails/${item.id} `}
+                className="min-w-[8ren] w-[7rem]"
+              >
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="w-20 h-20 object-cover rounded-md"
+                  className=" object-cover h-20 w-full rounded-md"
                 />
               </Link>
               <div>

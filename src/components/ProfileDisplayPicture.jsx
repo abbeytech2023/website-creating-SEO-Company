@@ -90,7 +90,7 @@ export default function ProfileDisplayPicture() {
   const authUser = authenticatedUser?.[0];
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 mt-28">
+    <div className="flex items-center justify-center bg-gray-100">
       {!authUser && (
         <div className="w-100">
           <SpinnerMini />

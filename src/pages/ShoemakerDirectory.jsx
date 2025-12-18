@@ -109,17 +109,17 @@ export default function ShoemakersDirectory() {
         </div>
       )}
       {data && (
-        <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-6 p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-9 lg:grid-cols-3 p-6">
           {data?.map((maker) => (
             <Link
               to={`/shoe-maker/${maker.id}`}
               key={maker.id}
-              className=" bg-white shadow-sm hover:shadow-lg transition"
+              className="shadow-sm hover:shadow-lg transition"
             >
               <img
                 src={maker.image}
                 alt={maker.name}
-                className="w-full h-[50%] object-cover rounded-lg mb-3"
+                className="w-full h-70  object-cover rounded-lg mb-3"
               />
               <h2 className="font-semibold text-xl uppercase">
                 {maker.businessName}

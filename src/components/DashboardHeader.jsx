@@ -20,7 +20,7 @@ export default function DashboardHeader({ vendor }) {
     <>
       <div className=" bg-white rounded-2xl shadow p-6 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Logo + Info */}
-        <div className="flex bg-red flex-col  items-center md:flex-row md:items-start gap-4">
+        <div className="flex flex-col  items-center md:flex-row md:items-start gap-4">
           {/* <img
             src={vendor?.logo_url}
             className="w-24 h-24 rounded-full border-4 border-white shadow"

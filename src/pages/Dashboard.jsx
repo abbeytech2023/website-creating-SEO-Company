@@ -58,7 +58,7 @@ export default function Dashboard() {
   // if (loading) return <p className="text-center mt-20">Loading...</p>;
 
   return (
-    <div className="min-h-screen bg-[#faf7f2] p-8">
+    <div className="min-h-screen bg-[#faf7f2] p-4">
       {/* HEADER */}
       <DashboardHeader vendor={vendor} />
 
