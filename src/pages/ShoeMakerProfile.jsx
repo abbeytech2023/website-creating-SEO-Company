@@ -69,9 +69,9 @@ export default function ShoemakerProfile() {
       </div>
     );
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl  mx-auto p-6">
       {/* HEADER */}
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-6  items-center">
         <img
           src={data.image}
           className="w-40 h-40 rounded-xl object-cover shadow-md"
@@ -154,7 +154,7 @@ export default function ShoemakerProfile() {
           </p>
         )}
 
-        <div className="grid grid-cols-2  md:grid-cols-4 gap-5 mt-16">
+        <div className="grid grid-cols-2  md:grid-cols-4 gap-16 mt-16">
           {shoemaker &&
             shoemaker?.map((p, i) => (
               <div

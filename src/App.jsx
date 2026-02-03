@@ -18,6 +18,7 @@ import ShoemakerProfile from "./pages/ShoeMakerProfile";
 import Login from "./pages/Login";
 import { Spinner } from "./components/Spinner";
 import { useAuthContext } from "./hooks/useAuthContext";
+import InstallButton from "./components/InstallButton";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
@@ -30,6 +31,7 @@ export default function App() {
       {!authIsReady && <Spinner />}
       {authIsReady && (
         <>
+          <InstallButton />
           <Navbar />
           <main className="flex-grow">
             <Routes>

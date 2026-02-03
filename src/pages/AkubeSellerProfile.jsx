@@ -79,7 +79,7 @@ export default function AkubeSellerProfile() {
             This Store currently has no product for display
           </p>
         )}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-16">
           {product &&
             product?.map((p, i) => (
               <div

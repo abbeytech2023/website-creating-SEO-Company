@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import { formatPrice } from "../utility/utility";
+import { useCheckout } from "../hooks/useCheckOut";
+import { useFetchUsersWithId } from "../hooks/useFetchUsers";
+import { useUser } from "../hooks/useUser";
 // import { useCart } from "../context/CartContext";
 
 export default function Checkout() {
   const { cart, clearCart } = useCartContext();
+  const { authenticatedUser } = useFetchUsersWithId();
+  const { user } = useUser();
+
+  const { checkout } = useCheckout();
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -31,9 +39,11 @@ export default function Checkout() {
       return;
     }
 
+    checkout({ user, cart });
+
     // In a real app → send data to backend / payment gateway
-    clearCart();
-    navigate("/success");
+    // clearCart();
+    // navigate("/success");
   };
 
   if (cart.length === 0) {
@@ -76,6 +86,14 @@ export default function Checkout() {
         </div>
 
         <div>
+          <label className="block font-semibold mb-2">Order-Type</label>
+          <select name="" id="" className="w-full border rounded-lg p-3">
+            <option value="pick-up">Pick-up</option>
+            <option value="Delivery">Delivery</option>
+          </select>
+        </div>
+
+        <div>
           <label className="block font-semibold mb-2">Mobile</label>
           <input
             type="tel"
@@ -101,7 +119,7 @@ export default function Checkout() {
 
         <div className="flex justify-between items-center">
           <p className="font-bold text-lg">
-            Total:{" "}
+            Total:
             <span className="text-blue-600">
               {formatPrice(total.toFixed(2))}
             </span>
