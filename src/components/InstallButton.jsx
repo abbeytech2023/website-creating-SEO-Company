@@ -28,7 +28,7 @@ export default function InstallButton() {
     <button
       onClick={installApp}
       className="flex items-center gap-3 px-4 py-2 rounded-xl
-                 bg-blue-600 text-white font-semibold shadow-md
+                 bg-black text-white font-semibold shadow-md
                  hover:bg-blue-700 transition"
     >
       <img
