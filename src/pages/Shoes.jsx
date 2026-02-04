@@ -12,7 +12,7 @@ export default function Shoes() {
 
   return (
     <>
-      <section className="p-6 grid gap-6 md:grid-cols-3">
+      <section className="">
         {shoes && shoes?.map((p) => <ProductCard key={p?.id} product={p} />)}
       </section>
     </>

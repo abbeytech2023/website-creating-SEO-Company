@@ -6,7 +6,7 @@ export default function Shop() {
   const { data: shoes } = useGetShoes();
 
   return (
-    <section className="p-6 grid gap-6 md:grid-cols-3">
+    <section className="p-10 grid sm:grid-cols-2   gap-8 md:grid-cols-3">
       {shoes && shoes.map((p) => <ProductCard key={p.id} product={p} />)}
     </section>
   );

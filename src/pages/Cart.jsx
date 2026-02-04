@@ -86,7 +86,7 @@ export default function Cart() {
             </div>
             <button
               onClick={() => removeFromCart(item.id)}
-              className="text-red-600 hover:text-red-800"
+              className=" text-[0.7rem] text-red-600 hover:text-red-800"
             >
               Remove
             </button>

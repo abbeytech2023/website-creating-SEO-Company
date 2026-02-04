@@ -15,7 +15,7 @@ export default function ProductCard({ product }) {
         <img
           src={product?.image}
           alt={product?.name}
-          className="w-full h-80 object-cover rounded-md mb-4"
+          className="w-full h-60 object-cover rounded-md mb-4"
         />
         <h3 className="font-semibold text-lg uppercase">{product?.name}</h3>
         <p className="text-blue-600 font-bold">{formatPrice(product?.price)}</p>
