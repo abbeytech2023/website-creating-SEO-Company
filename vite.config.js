@@ -12,8 +12,8 @@ export default defineConfig({
       includeAssets: ["favicon.svg", "favicon.ico", "robots.txt"],
       manifest: {
         name: "My App",
-        short_name: "MyApp",
-        description: "My Vite PWA App",
+        short_name: "Shoe Market hub",
+        description: "shoe market",
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
