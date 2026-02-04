@@ -11,7 +11,7 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "favicon.ico", "robots.txt"],
       manifest: {
-        name: "My App",
+        name: "Shoe Market Hub",
         short_name: "Shoe Market hub",
         description: "shoe market",
         theme_color: "#ffffff",
