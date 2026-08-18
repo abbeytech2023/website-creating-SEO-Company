@@ -25,6 +25,7 @@ export default function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [URL]);
+  console.log(authIsReady);
 
   return (
     <div className="flex flex-col min-h-screen">
