@@ -33,7 +33,7 @@ export default function App() {
       {authIsReady && (
         <>
           <InstallButton />
-          <Navbar />
+          {/* <Navbar /> */}
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
