@@ -1,192 +1,248 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import SpinnerMini from "../components/SpinnerMini";
-import { useForm } from "react-hook-form";
-import FormRow from "../components/FormRow";
-import { useSignup } from "../hooks/useSignup";
+import { useState } from "react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  GraduationCap,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 
 export default function Signup() {
-  const { register, handleSubmit, getValues, formState } = useForm();
-
-  const { signup, isPending } = useSignup();
-
-  const { errors } = formState;
-
-  const onSubmit = (data) => {
-    signup({ ...data });
-    console.log("Signup submitted:", { ...data });
-  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-black">
-      {/* LEFT PANEL WITH IMAGE */}
-      <div
-        className="hidden md:flex flex-col justify-start pt-44  w-1/2 px-16 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://media.istockphoto.com/id/2175079600/photo/different-female-shoes-abstract-arrangement-on-beige-carpet-flooring-fashion-shopping.webp?a=1&b=1&s=612x612&w=0&k=20&c=NAwagDCirr8DpSAvkkyaCm4-BcwD_8Y_ZZ4peegOJNU=')",
-        }}
-      >
-        <div className="bg-black/60 p-10  rounded-xl">
-          <h1 className="text-4xl font-bold text-white tracking-wide">
-            ShoeMarketHub
-          </h1>
-          <p className="mt-4 text-white/80 text-lg">
-            The marketplace for shoemakers & Akube sellers. Showcase. Sell. Gain
-            customers.
-          </p>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl border border-slate-200 lg:grid lg:grid-cols-2">
+        {/* Left Side */}
+        <div className="relative hidden overflow-hidden bg-emerald-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+          {/* Decorative circles */}
+          <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-emerald-500/40" />
+          <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-800/60" />
+
+          <div className="relative">
+            {/* Logo */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-emerald-700 shadow-lg">
+                <GraduationCap size={27} />
+              </div>
+
+              <div>
+                <h1 className="font-bold text-lg">Golden Heritage School</h1>
+
+                <p className="text-xs text-emerald-100">
+                  School Management Portal
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm backdrop-blur">
+              <Sparkles size={16} className="text-amber-300" />
+              2026/2027 Academic Session
+            </div>
+
+            <h2 className="max-w-md text-4xl font-bold leading-tight">
+              Manage your school with confidence.
+            </h2>
+
+            <p className="mt-5 max-w-md leading-7 text-emerald-50">
+              Manage teachers, students, classes and academic results from one
+              simple and secure platform.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              <Benefit text="Manage student records" />
+              <Benefit text="Prepare and approve results" />
+              <Benefit text="Generate professional PDF reports" />
+            </div>
+          </div>
+
+          <div className="relative flex items-center gap-2 text-sm text-emerald-100">
+            <ShieldCheck size={18} />
+            Secure school management
+          </div>
         </div>
-      </div>
 
-      {/* RIGHT PANEL */}
-      <div
-        className="flex justify-center items-center w-full md:w-1/2 px-8 py-14 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1606813904090-62d0b54d55a7?auto=format&fit=crop&w=1000&q=80')",
-        }}
-      >
-        <div className="bg-black/80 max-w-md w-full p-8 rounded-xl shadow-2xl border border-white/10 backdrop-blur-sm">
-          <h2 className="text-2xl font-semibold text-white mb-6 text-center">
-            Create Your Account
-          </h2>
+        {/* Right Side */}
+        <div className="p-6 sm:p-10 lg:p-12">
+          {/* Mobile Logo */}
+          <div className="mb-8 flex items-center gap-3 lg:hidden">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white">
+              <GraduationCap size={24} />
+            </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Full Name */}
-            <FormRow
-              text="white"
-              label="Full name"
-              error={errors?.name?.message}
-            >
-              <input
-                type="text"
-                {...register("fullName", {
-                  required: "your full name is required",
-                })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="Abdul Vintage Collection"
-              />
-            </FormRow>
+            <div>
+              <h1 className="font-bold text-lg text-slate-900">
+                Golden Heritage School
+              </h1>
 
-            {/* Store Name */}
-            <FormRow
-              text="white"
-              label="Store name"
-              error={errors?.storeName?.message}
-            >
-              <input
-                type="text"
-                {...register("businessName", {
-                  required: "Your store name is required",
-                })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="Abdul Vintage Collection"
-              />
-            </FormRow>
+              <p className="text-xs text-slate-400">School Management Portal</p>
+            </div>
+          </div>
+
+          {/* Heading */}
+          <div className="mb-7">
+            <p className="text-sm font-semibold text-emerald-600">
+              Administrator Setup
+            </p>
+
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-950">
+              Create your account
+            </h2>
+
+            <p className="mt-2 text-sm leading-6 text-slate-500">
+              Set up your administrator account to access the Golden Heritage
+              School management portal.
+            </p>
+          </div>
+
+          <form className="space-y-4">
+            {/* Name */}
+            <Input
+              label="Full Name"
+              type="text"
+              placeholder="Enter your full name"
+            />
 
             {/* Email */}
-            <FormRow
-              text="white"
-              label="Email address"
-              error={errors?.email?.message}
-            >
-              <input
-                type="email"
-                {...register("email", { required: "enter your email address" })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="you@example.com"
-              />
-            </FormRow>
-
-            {/* Password */}
-            <FormRow text="white" label="password">
-              <input
-                type="password"
-                {...register("password", { required: true })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="Enter password"
-              />
-            </FormRow>
-            <FormRow
-              text="white"
-              label="Confirm password"
-              error={errors?.passwordConfirm?.message}
-            >
-              <input
-                minLength="8"
-                type="password"
-                id="passwordConfirm"
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="confirm your passwoed"
-                name="password"
-                {...register("passwordConfirm", {
-                  validate: (value) => {
-                    const password = getValues().password;
-                    if (value != password) return "password needs to match";
-                  },
-                })}
-              />
-            </FormRow>
-
-            {/* Category */}
-            <FormRow text="white" label="Vendor/Shopper">
-              <select
-                {...register("role", { required: true })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-              >
-                <option value="">Choose one</option>
-                <option value="vendor-akube-store">Akube seller</option>
-                <option value="vendor-shoe-maker">Shoemaker</option>
-                <option value="shopper">Shopper</option>
-              </select>
-            </FormRow>
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="admin@example.com"
+            />
 
             {/* Phone */}
-            <FormRow text="white" label="Phone number (WhatsApp)">
-              <input
-                type="tel"
-                {...register("phone", { required: true })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="+234..."
-              />
-            </FormRow>
+            <Input label="Phone Number" type="tel" placeholder="08012345678" />
 
-            {/* Location */}
-            <FormRow
-              text="white"
-              label="Store Location"
-              error={errors?.location?.message}
-            >
-              <input
-                type="text"
-                {...register("storeAddress", {
-                  required: "The location of your store is required",
-                })}
-                className="w-full px-4 py-3 rounded-lg border border-white/20 bg-black/50 text-white"
-                placeholder="Tejuosho Market, Lagos"
-              />
-            </FormRow>
+            {/* Password */}
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                Password
+              </label>
 
-            {/* Submit */}
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Create a password"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 pr-12 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-50"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-600"
+                >
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Confirm Password */}
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700">
+                Confirm Password
+              </label>
+
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm your password"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 pr-12 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-50"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-emerald-600"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={19} />
+                  ) : (
+                    <Eye size={19} />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Terms */}
+            <label className="flex cursor-pointer items-start gap-3 pt-2">
+              <input
+                type="checkbox"
+                className="mt-1 h-4 w-4 rounded border-slate-300 accent-emerald-600"
+              />
+
+              <span className="text-xs leading-5 text-slate-500">
+                I agree to the school portal terms and understand that I am
+                responsible for administrator access.
+              </span>
+            </label>
+
+            {/* Button */}
             <button
               type="submit"
-              className="w-full bg-white text-black font-semibold py-3 rounded-lg hover:opacity-90 transition tracking-wide"
+              className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3.5 font-semibold text-white shadow-lg shadow-emerald-100 transition hover:bg-emerald-700 hover:shadow-xl"
             >
-              {isPending ? <SpinnerMini /> : "Sign Up"}
+              Create Administrator Account
+              <ArrowRight
+                size={18}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </button>
           </form>
 
-          <p className="text-sm text-center text-white/50 mt-4">
-            Already a member?
-            <Link
-              to="/login"
-              className="text-white font-medium ml-1 cursor-pointer hover:underline"
-            >
-              Log in
-            </Link>
+          {/* Login */}
+          <div className="mt-7 border-t border-slate-100 pt-6 text-center">
+            <p className="text-sm text-slate-500">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="font-semibold text-emerald-600 hover:text-emerald-700"
+              >
+                Login
+              </a>
+            </p>
+          </div>
+
+          <p className="mt-6 text-center text-xs text-slate-400">
+            © 2026 Golden Heritage School
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* Input Component */
+
+function Input({ label, type, placeholder }) {
+  return (
+    <div>
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label}
+      </label>
+
+      <input
+        type={type}
+        placeholder={placeholder}
+        className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-50"
+      />
+    </div>
+  );
+}
+
+/* Benefit Component */
+
+function Benefit({ text }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
+        <ShieldCheck size={15} className="text-amber-300" />
+      </div>
+
+      <span className="text-sm text-emerald-50">{text}</span>
     </div>
   );
 }
