@@ -12,6 +12,8 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import TeacherDashboard from "./pages/Teacher";
+import RoyalPriesthoodHome from "./pages/RoyalPriestSchool";
+import BrightChildSchool from "./pages/BrigntChild";
 
 export default function App() {
   const { authIsReady } = useAuthContext();
@@ -35,6 +37,8 @@ export default function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/teacher" element={<TeacherDashboard />} />
               <Route path="/results" element={<Results />} />
+              <Route path="/school1" element={<RoyalPriesthoodHome />} />
+              <Route path="/school2" element={<BrightChildSchool />} />
             </Routes>
             <Toaster
               position="top-center"
