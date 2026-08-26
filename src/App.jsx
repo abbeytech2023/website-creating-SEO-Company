@@ -7,7 +7,7 @@ import { Spinner } from "./components/Spinner";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Results from "./pages/Results";
 import AdminDashboard from "./pages/Dashbord";
-import InstallButton from "./components/InstallButton";
+// import InstallButton from "./components/InstallButton";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -27,7 +27,7 @@ export default function App() {
       {!authIsReady && <Spinner />}
       {authIsReady && (
         <>
-          <InstallButton />
+          {/* <InstallButton /> */}
           {/* <Navbar /> */}
           <main className="flex-grow">
             <Routes>
