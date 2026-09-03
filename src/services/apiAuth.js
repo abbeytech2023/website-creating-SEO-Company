@@ -3,10 +3,8 @@ import { supabase } from "./supabaseClients";
 export async function signup({
   email,
   password,
-  fullName,
-  role,
-  storeAddress,
-  businessName,
+  adminName,
+  schoolName,
   phone,
 }) {
   const { data, error } = await supabase.auth.signUp({
@@ -14,48 +12,46 @@ export async function signup({
     password,
     options: {
       data: {
-        fullName,
-        avatar: "",
-        storeAddress,
-        role,
-        businessName,
+        adminName,
+        schoolName,
         phone,
       },
     },
   });
+  console.log(error);
 
-  if (error) throw new Error(error.message);
-  // console.log(error);
+  console.log(email, adminName, schoolName, phone, password);
 
-  const user = data.user;
-  console.log(user);
-
-  if (!user) {
-    console.log("user not returned from auth signup");
-    return;
+  if (error) {
+    console.error("Signup error:", error);
+    throw new Error(error.message);
   }
 
-  // insert into the users table
-  const { error: insertError } = await supabase.from("users").insert([
+  const user = data.user;
+
+  console.log("Auth user:", user);
+
+  if (!user) {
+    throw new Error("User was not returned from Supabase.");
+  }
+
+  // Save admin information in profiles table
+  const { error: insertError } = await supabase.from("profiles").insert([
     {
       uid: user.id,
       email,
-      fullName,
-      role,
-      storeAddress,
-      businessName,
+      adminName,
+      schoolName,
       phone,
     },
   ]);
 
   if (insertError) {
-    console.error("database inserterror:,", insertError);
-    return;
+    console.error("Profile insert error:", insertError);
+    throw new Error(insertError.message);
   }
 
-  console.log("user registered and saved successfully");
-
-  // console.log(data)
+  console.log("User registered and profile saved successfully.");
 
   return data;
 }

@@ -2,24 +2,37 @@ import { useMutation } from "@tanstack/react-query";
 import { signup as signupApi } from "../services/apiAuth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export function useSignup() {
-  const [errMessage, setErrMessage] = useState();
   const navigate = useNavigate();
-  const { mutate: signup, isPending } = useMutation({
+  const {
+    mutateAsync: signup,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: signupApi,
+
     onSuccess: () => {
-      navigate("/");
       toast.success("Account created successfully");
+      navigate("/");
     },
+
     onError: (err) => {
-      if (err.message === "User already registered") {
-        setErrMessage("email already taken");
+      console.error("Signup error:", err);
+
+      if (err?.message === "User already registered") {
+        toast.error("Email already taken");
+      } else {
+        toast.error(
+          err?.message || "Unable to create your account. Please try again.",
+        );
       }
-      toast.error(errMessage);
     },
   });
 
-  return { signup, isPending };
+  return {
+    signup,
+    isPending,
+    error,
+  };
 }
