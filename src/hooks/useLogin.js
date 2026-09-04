@@ -14,7 +14,7 @@ export function useLogin() {
       // queryClient.setQueryData(["user"], user.user);
 
       toast.success("logged in successfully");
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     },
     onError: (err) => {
       if (err.message === "Failed to fetch") {
