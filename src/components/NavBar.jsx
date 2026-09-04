@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 import {
   BarChart3,
   BookOpen,
@@ -19,6 +20,7 @@ import { useState } from "react";
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const { logout } = useLogout();
 
   const navigation = [
     {
@@ -175,7 +177,10 @@ export default function Navigation() {
                 Settings
               </NavLink>
 
-              <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-600 hover:bg-red-50">
+              <button
+                onClick={logout}
+                className="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-600 hover:bg-red-50"
+              >
                 <LogOut size={17} />
                 Logout
               </button>
@@ -278,8 +283,11 @@ export default function Navigation() {
         </nav>
 
         {/* Mobile Logout */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-slate-200 bg-white p-4">
-          <button className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-red-600 hover:bg-red-50">
+        <div className="absolute bottom-0 cursor-pointer left-0 right-0 border-t border-slate-200 bg-white p-4">
+          <button
+            onClick={logout}
+            className="flex w-full  items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-red-600 hover:bg-red-50"
+          >
             <LogOut size={19} />
             Logout
           </button>
