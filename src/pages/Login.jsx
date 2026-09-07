@@ -16,8 +16,10 @@ import {
 import { useLogin } from "../hooks/useLogin";
 
 export default function Login() {
-  const { login, isLoading } = useLogin();
+  const { login, isPending } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
+
+  console.log(isPending);
 
   const {
     register,
@@ -294,10 +296,10 @@ export default function Login() {
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isPending}
                   className="group flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {isLoading ? (
+                  {isPending ? (
                     <>
                       <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                       Signing in...

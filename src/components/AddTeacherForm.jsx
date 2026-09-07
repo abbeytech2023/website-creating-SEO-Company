@@ -56,8 +56,6 @@ export default function AddTeacherForm({ showAddTeacher, setShowAddTeacher }) {
     reset();
     setPhoto(null);
     setPhotoPreview(null);
-
-    onSuccess?.();
   };
 
   return (
