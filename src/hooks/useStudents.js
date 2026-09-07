@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
-import { addStudent as addStudentService } from "../services/apistudentService";
+import { addStudent as addStudentService } from "../services/apiStudentService";
 
 export function useAddStudent() {
   const queryClient = useQueryClient();

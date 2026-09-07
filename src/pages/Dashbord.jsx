@@ -26,6 +26,7 @@ const resultProgress = [
 
 export default function AdminDashboard() {
   const [activePanel, setActivePanel] = useState(null);
+  const [showAddStudent, setShowAddStudent] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -218,7 +219,10 @@ export default function AdminDashboard() {
 
       {activePanel === "student" && (
         <Modal title="Add a student" onClose={() => setActivePanel(null)}>
-          <AddStudentForm onClose={() => setActivePanel(null)} />
+          <AddStudentForm
+            showAddStudent={showAddStudent}
+            setShowAddStudent={setShowAddStudent}
+          />
         </Modal>
       )}
       {activePanel === "teacher" && (
