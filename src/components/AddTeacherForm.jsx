@@ -1,274 +1,389 @@
 import React, { useState } from "react";
-import { ArrowLeft, Save, User, Upload } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { ArrowLeft, Camera, User, Landmark } from "lucide-react";
 
-export default function AddTeacherForm({ onClose }) {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    staffId: "",
-    gender: "",
-    phone: "",
-    email: "",
-    subject: "",
-    className: "",
-  });
+export default function AddTeacherForm({ showAddTeacher, setShowAddTeacher }) {
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handlePhotoChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    setPhoto(file);
+    setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    const teacherData = {
+      first_name: data.first_name,
+      middle_name: data.middle_name || null,
+      last_name: data.last_name,
 
-    console.log("Teacher Data:", formData);
+      gender: data.gender,
+      date_of_birth: data.date_of_birth || null,
+
+      phone: data.phone,
+      email: data.email || null,
+      address: data.address || null,
+
+      employee_id: data.employee_id,
+      qualification: data.qualification || null,
+      status: data.status,
+
+      bank_name: data.bank_name || null,
+      account_name: data.account_name || null,
+      account_number: data.account_number || null,
+      account_type: data.account_type || null,
+      sort_code: data.sort_code || null,
+
+      photo: photo,
+    };
+
+    console.log("Teacher Data:", teacherData);
 
     // Later:
-    // Save teacher to Supabase
+    // addTeacher(teacherData)
+
+    reset();
+    setPhoto(null);
+    setPhotoPreview(null);
+
+    onSuccess?.();
   };
 
   return (
-    <div className="bg-white">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b px-6 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600">
-            <User size={20} />
-          </div>
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
+      <div className="mx-auto max-w-4xl">
+        {/* Header */}
+        <div className="mb-6 flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => {
+              setShowAddTeacher(false);
+            }}
+            className="rounded-lg border border-slate-200 bg-white p-2.5 hover:bg-slate-100"
+          >
+            <ArrowLeft size={20} />
+          </button>
 
           <div>
-            <h1 className="text-lg font-bold text-slate-900">Add Teacher</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Add Teacher</h1>
 
             <p className="text-sm text-slate-500">
-              Add a new teacher to the school
+              Add a new teacher to your school.
             </p>
           </div>
         </div>
 
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg p-2 text-slate-400 hover:bg-slate-100"
-          >
-            <ArrowLeft size={20} />
-          </button>
-        )}
-      </div>
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="rounded-2xl border border-slate-200 bg-white shadow-sm"
+        >
+          <div className="p-6">
+            {/* Photo */}
+            <div className="mb-8 flex flex-col items-center">
+              <div className="relative">
+                <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-slate-100">
+                  {photoPreview ? (
+                    <img
+                      src={photoPreview}
+                      alt="Teacher"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <User size={45} className="text-slate-400" />
+                  )}
+                </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6 p-6">
-        {/* Teacher Information */}
-        <section>
-          <h2 className="mb-4 text-sm font-bold text-slate-900">
-            Teacher Information
-          </h2>
+                <label
+                  htmlFor="teacher-photo"
+                  className="absolute bottom-0 right-0 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white"
+                >
+                  <Camera size={17} />
 
-          {/* Photo */}
-          <div className="mb-5 flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-              <User size={26} />
+                  <input
+                    id="teacher-photo"
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              <p className="mt-3 text-sm font-medium text-slate-700">
+                Teacher Photo
+              </p>
+
+              <p className="text-xs text-slate-400">Optional</p>
             </div>
 
+            {/* Personal Information */}
+            <div className="mb-8">
+              <h2 className="mb-4 text-lg font-semibold text-slate-900">
+                Personal Information
+              </h2>
+
+              <div className="grid gap-5 md:grid-cols-3">
+                <Input
+                  label="First Name"
+                  placeholder="First name"
+                  {...register("first_name", {
+                    required: "First name is required",
+                  })}
+                  error={errors.first_name?.message}
+                />
+
+                <Input
+                  label="Middle Name"
+                  placeholder="Middle name"
+                  {...register("middle_name")}
+                />
+
+                <Input
+                  label="Last Name"
+                  placeholder="Last name"
+                  {...register("last_name", {
+                    required: "Last name is required",
+                  })}
+                  error={errors.last_name?.message}
+                />
+
+                <Select
+                  label="Gender"
+                  {...register("gender", {
+                    required: "Gender is required",
+                  })}
+                  error={errors.gender?.message}
+                >
+                  <option value="">Select gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </Select>
+
+                <Input
+                  label="Date of Birth"
+                  type="date"
+                  {...register("date_of_birth")}
+                />
+
+                <Input
+                  label="Phone Number"
+                  type="tel"
+                  placeholder="08012345678"
+                  {...register("phone", {
+                    required: "Phone number is required",
+                  })}
+                  error={errors.phone?.message}
+                />
+              </div>
+            </div>
+
+            {/* Contact Information */}
+            <div className="mb-8 border-t border-slate-100 pt-8">
+              <h2 className="mb-4 text-lg font-semibold text-slate-900">
+                Contact Information
+              </h2>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <Input
+                  label="Email"
+                  type="email"
+                  placeholder="teacher@example.com"
+                  {...register("email")}
+                />
+
+                <Input
+                  label="Residential Address"
+                  placeholder="Residential address"
+                  {...register("address")}
+                />
+              </div>
+            </div>
+
+            {/* Employment Information */}
+            <div className="mb-8 border-t border-slate-100 pt-8">
+              <h2 className="mb-4 text-lg font-semibold text-slate-900">
+                Employment Information
+              </h2>
+
+              <div className="grid gap-5 md:grid-cols-3">
+                <Input
+                  label="Employee ID"
+                  placeholder="e.g. TCH001"
+                  {...register("employee_id", {
+                    required: "Employee ID is required",
+                  })}
+                  error={errors.employee_id?.message}
+                />
+
+                <Input
+                  label="Qualification"
+                  placeholder="e.g. B.Ed, B.Sc, NCE"
+                  {...register("qualification")}
+                />
+
+                <Select
+                  label="Status"
+                  {...register("status", {
+                    required: "Status is required",
+                  })}
+                  error={errors.status?.message}
+                >
+                  <option value="">Select status</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="on_leave">On Leave</option>
+                </Select>
+              </div>
+            </div>
+
+            {/* Bank Details */}
+            <div className="mb-8 border-t border-slate-100 pt-8">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 text-green-600">
+                  <Landmark size={20} />
+                </div>
+
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900">
+                    Bank Details
+                  </h2>
+
+                  <p className="text-sm text-slate-500">
+                    Used for teacher salary payments.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                <Input
+                  label="Bank Name"
+                  placeholder="e.g. First Bank"
+                  {...register("bank_name")}
+                />
+
+                <Input
+                  label="Account Name"
+                  placeholder="Name on bank account"
+                  {...register("account_name")}
+                />
+
+                <Input
+                  label="Account Number"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={10}
+                  placeholder="Enter 10-digit account number"
+                  {...register("account_number", {
+                    pattern: {
+                      value: /^[0-9]{10}$/,
+                      message: "Account number must be 10 digits",
+                    },
+                  })}
+                  error={errors.account_number?.message}
+                />
+
+                <Select label="Account Type" {...register("account_type")}>
+                  <option value="">Select account type</option>
+                  <option value="Savings">Savings</option>
+                  <option value="Current">Current</option>
+                </Select>
+
+                <Input
+                  label="Sort Code"
+                  placeholder="Optional"
+                  {...register("sort_code")}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-3 border-t border-slate-200 bg-slate-50 p-5">
             <button
               type="button"
-              className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+              onClick={() => setShowAddTeacher(false)}
+              className="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-100"
             >
-              <Upload size={16} />
-              Upload Photo
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+            >
+              Add Teacher
             </button>
           </div>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            <Input
-              label="First Name"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="Enter first name"
-              required
-            />
-
-            <Input
-              label="Last Name"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Enter last name"
-              required
-            />
-
-            <Input
-              label="Staff ID"
-              name="staffId"
-              value={formData.staffId}
-              onChange={handleChange}
-              placeholder="e.g. TCH001"
-              required
-            />
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Gender
-              </label>
-
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              >
-                <option value="">Select gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Information */}
-        <section className="border-t pt-6">
-          <h2 className="mb-4 text-sm font-bold text-slate-900">
-            Contact Information
-          </h2>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            <Input
-              label="Phone Number"
-              name="phone"
-              type="tel"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="e.g. 08012345678"
-              required
-            />
-
-            <Input
-              label="Email Address"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="teacher@example.com"
-            />
-          </div>
-        </section>
-
-        {/* Teaching Assignment */}
-        <section className="border-t pt-6">
-          <h2 className="mb-1 text-sm font-bold text-slate-900">
-            Teaching Assignment
-          </h2>
-
-          <p className="mb-4 text-sm text-slate-500">
-            Select the main subject and class this teacher handles.
-          </p>
-
-          <div className="grid gap-5 md:grid-cols-2">
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Subject
-              </label>
-
-              <select
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              >
-                <option value="">Select subject</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="English">English</option>
-                <option value="Basic Science">Basic Science</option>
-                <option value="Social Studies">Social Studies</option>
-                <option value="Computer Studies">Computer Studies</option>
-                <option value="Biology">Biology</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Physics">Physics</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700">
-                Class
-              </label>
-
-              <select
-                name="className"
-                value={formData.className}
-                onChange={handleChange}
-                required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-              >
-                <option value="">Select class</option>
-                <option value="JSS 1A">JSS 1A</option>
-                <option value="JSS 1B">JSS 1B</option>
-                <option value="JSS 2A">JSS 2A</option>
-                <option value="JSS 2B">JSS 2B</option>
-                <option value="JSS 3A">JSS 3A</option>
-                <option value="SS 1A">SS 1A</option>
-                <option value="SS 2A">SS 2A</option>
-                <option value="SS 3A">SS 3A</option>
-              </select>
-            </div>
-          </div>
-        </section>
-
-        {/* Actions */}
-        <div className="flex flex-col-reverse gap-3 border-t pt-6 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            className="flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white hover:bg-indigo-700"
-          >
-            <Save size={17} />
-            Save Teacher
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
 
-/* Reusable Input */
+/* Input */
 
-function Input({
-  label,
-  name,
-  type = "text",
-  value,
-  onChange,
-  placeholder,
-  required = false,
-}) {
+const Input = React.forwardRef(({ label, error, ...props }, ref) => {
   return (
     <div>
-      <label className="mb-2 block text-sm font-medium text-slate-700">
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
       </label>
 
       <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        required={required}
-        className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+        ref={ref}
+        {...props}
+        className={`w-full rounded-lg border px-3.5 py-2.5 text-sm outline-none transition
+            ${
+              error
+                ? "border-red-400 focus:ring-2 focus:ring-red-100"
+                : "border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            }`}
       />
+
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   );
-}
+});
+
+Input.displayName = "Input";
+
+/* Select */
+
+const Select = React.forwardRef(({ label, error, children, ...props }, ref) => {
+  return (
+    <div>
+      <label className="mb-1.5 block text-sm font-medium text-slate-700">
+        {label}
+      </label>
+
+      <select
+        ref={ref}
+        {...props}
+        className={`w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm outline-none transition
+            ${
+              error
+                ? "border-red-400"
+                : "border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            }`}
+      >
+        {children}
+      </select>
+
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+    </div>
+  );
+});
+
+Select.displayName = "Select";

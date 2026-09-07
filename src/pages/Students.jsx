@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import AddStudentForm from "../components/AddStudentForm";
+
 import {
   Search,
   Plus,
@@ -17,6 +19,12 @@ export default function Students() {
   const [classFilter, setClassFilter] = useState("All Classes");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [openMenu, setOpenMenu] = useState(null);
+
+  // =========================
+  // ADD STUDENT FORM STATE
+  // =========================
+
+  const [showAddStudent, setShowAddStudent] = useState(false);
 
   // Mock student data
   const students = [
@@ -150,9 +158,25 @@ export default function Students() {
     });
   };
 
+  // =========================
+  // SHOW ADD STUDENT FORM
+  // =========================
+
+  if (showAddStudent) {
+    return (
+      <AddStudentForm
+        setShowAddStudent={setShowAddStudent}
+        showAddStudent={showAddStudent}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Page Header */}
+      {/* =========================
+          PAGE HEADER
+      ========================== */}
+
       <div className="border-b border-slate-200 bg-white">
         <div className="px-5 py-6 sm:px-8">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
@@ -166,7 +190,13 @@ export default function Students() {
               </p>
             </div>
 
-            <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
+            {/* ADD STUDENT BUTTON */}
+
+            <button
+              type="button"
+              onClick={() => setShowAddStudent(true)}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+            >
               <Plus size={18} />
               Add Student
             </button>
@@ -174,9 +204,13 @@ export default function Students() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* =========================
+          MAIN CONTENT
+      ========================== */}
+
       <div className="p-5 sm:p-8">
-        {/* Summary Card */}
+        {/* SUMMARY CARDS */}
+
         <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <SummaryCard
             icon={<Users size={20} />}
@@ -200,12 +234,17 @@ export default function Students() {
           />
         </div>
 
-        {/* Student Table Card */}
+        {/* =========================
+            STUDENT TABLE
+        ========================== */}
+
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-          {/* Filters */}
+          {/* FILTERS */}
+
           <div className="border-b border-slate-200 p-4 sm:p-5">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              {/* Search */}
+              {/* SEARCH */}
+
               <div className="relative w-full lg:max-w-md">
                 <Search
                   size={18}
@@ -221,7 +260,8 @@ export default function Students() {
                 />
               </div>
 
-              {/* Filters */}
+              {/* FILTERS */}
+
               <div className="flex flex-col gap-3 sm:flex-row">
                 <div className="relative">
                   <Filter
@@ -255,7 +295,8 @@ export default function Students() {
             </div>
           </div>
 
-          {/* Results count */}
+          {/* RESULTS COUNT */}
+
           <div className="border-b border-slate-100 px-5 py-3">
             <p className="text-sm text-slate-500">
               Showing{" "}
@@ -270,7 +311,8 @@ export default function Students() {
             </p>
           </div>
 
-          {/* Desktop Table */}
+          {/* DESKTOP TABLE */}
+
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full">
               <thead>
@@ -308,7 +350,6 @@ export default function Students() {
               <tbody className="divide-y divide-slate-100">
                 {filteredStudents.map((student) => (
                   <tr key={student.id} className="transition hover:bg-slate-50">
-                    {/* Student */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">
@@ -328,34 +369,28 @@ export default function Students() {
                       </div>
                     </td>
 
-                    {/* Admission Number */}
                     <td className="px-5 py-4 text-sm font-medium text-slate-700">
                       {student.admissionNumber}
                     </td>
 
-                    {/* Class */}
                     <td className="px-5 py-4">
                       <span className="rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-700">
                         {student.class}
                       </span>
                     </td>
 
-                    {/* Gender */}
                     <td className="px-5 py-4 text-sm text-slate-600">
                       {student.gender}
                     </td>
 
-                    {/* DOB */}
                     <td className="px-5 py-4 text-sm text-slate-600">
                       {formatDate(student.dateOfBirth)}
                     </td>
 
-                    {/* Status */}
                     <td className="px-5 py-4">
                       <StatusBadge status={student.status} />
                     </td>
 
-                    {/* Action */}
                     <td className="relative px-5 py-4 text-right">
                       <button
                         onClick={() =>
@@ -376,7 +411,8 @@ export default function Students() {
             </table>
           </div>
 
-          {/* Mobile Cards */}
+          {/* MOBILE */}
+
           <div className="divide-y divide-slate-100 md:hidden">
             {filteredStudents.map((student) => (
               <div key={student.id} className="p-5">
@@ -432,7 +468,8 @@ export default function Students() {
             ))}
           </div>
 
-          {/* Empty State */}
+          {/* EMPTY STATE */}
+
           {filteredStudents.length === 0 && (
             <div className="px-5 py-16 text-center">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
@@ -449,7 +486,8 @@ export default function Students() {
             </div>
           )}
 
-          {/* Pagination */}
+          {/* PAGINATION */}
+
           {filteredStudents.length > 0 && (
             <div className="flex items-center justify-between border-t border-slate-200 px-5 py-4">
               <p className="text-xs text-slate-500 sm:text-sm">Page 1 of 1</p>
@@ -482,7 +520,7 @@ export default function Students() {
 }
 
 /* =========================================
-   Summary Card
+   SUMMARY CARD
 ========================================= */
 
 function SummaryCard({ icon, label, value }) {
@@ -502,7 +540,7 @@ function SummaryCard({ icon, label, value }) {
 }
 
 /* =========================================
-   Status Badge
+   STATUS BADGE
 ========================================= */
 
 function StatusBadge({ status }) {
@@ -528,7 +566,7 @@ function StatusBadge({ status }) {
 }
 
 /* =========================================
-   Student Detail
+   STUDENT DETAIL
 ========================================= */
 
 function StudentDetail({ label, value }) {
@@ -542,7 +580,7 @@ function StudentDetail({ label, value }) {
 }
 
 /* =========================================
-   Action Menu
+   ACTION MENU
 ========================================= */
 
 function ActionMenu() {

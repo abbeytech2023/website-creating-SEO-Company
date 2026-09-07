@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   ArrowRight,
   BarChart3,
@@ -6,6 +8,7 @@ import {
   CheckCircle2,
   Clock3,
   GraduationCap,
+  Plus,
   Users,
 } from "lucide-react";
 
@@ -24,12 +27,24 @@ export default function TeacherDashboard() {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Add Teacher Button */}
+            <button
+              type="button"
+              onClick={() => setShowAddTeacher(true)}
+              className="flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+              <Plus size={18} />
+              <span className="hidden sm:inline">Add Teacher</span>
+            </button>
+
+            {/* Notification */}
             <button className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50">
               <Bell size={19} />
 
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
             </button>
 
+            {/* Profile */}
             <div className="hidden text-right sm:block">
               <p className="text-sm font-semibold text-slate-800">
                 Mr. Adewale
@@ -199,6 +214,7 @@ export default function TeacherDashboard() {
 
         {/* Result Progress */}
         <section className="grid gap-6 lg:grid-cols-2">
+          {/* Result Preparation */}
           <div className="rounded-2xl border border-slate-200 bg-white p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -381,10 +397,10 @@ function ClassItem({ className, subject, students, progress, status }) {
         <div className="h-2 overflow-hidden rounded-full bg-slate-100">
           <div
             className={`h-full rounded-full ${
-              completed ? "w-full bg-green-500" : "bg-indigo-600"
+              completed ? "bg-green-500" : "bg-indigo-600"
             }`}
             style={{
-              width: completed ? "100%" : progress,
+              width: progress,
             }}
           />
         </div>

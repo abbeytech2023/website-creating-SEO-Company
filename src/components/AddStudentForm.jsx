@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, UserPlus, Camera, User } from "lucide-react";
+import { useAddStudent } from "../hooks/useStudents";
 
 const Input = React.forwardRef(({ label, error, ...props }, ref) => {
   return (
@@ -25,22 +26,36 @@ const Input = React.forwardRef(({ label, error, ...props }, ref) => {
 
 Input.displayName = "Input";
 
-export default function AddStudentForm() {
+export default function AddStudentForm({ showAddStudent, setShowAddStudent }) {
   const navigate = useNavigate();
 
-  const [photoPreview, setPhotoPreview] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  // =========================
+  // ADD STUDENT HOOK
+  // =========================
+
+  const { addStudent, isPending, error: submitError } = useAddStudent();
+
+  // =========================
+  // REACT HOOK FORM
+  // =========================
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    setValue,
+    formState: { errors },
   } = useForm();
 
-  // Handle photo selection
+  // =========================
+  // PHOTO
+  // =========================
+
   const handlePhotoChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
 
     if (!file) return;
 
@@ -48,30 +63,58 @@ export default function AddStudentForm() {
 
     const previewUrl = URL.createObjectURL(file);
     setPhotoPreview(previewUrl);
+
+    // For now, photo_url remains null.
+    // Later we will upload the file to Supabase Storage.
+    setValue("photo_url", null);
   };
 
-  const onSubmit = async (data) => {
-    console.log("Student Data:", data);
+  // =========================
+  // SUBMIT
+  // =========================
+
+  const onSubmit = (data) => {
+    const studentData = {
+      first_name: data.first_name,
+      middle_name: data.middle_name,
+      last_name: data.last_name,
+      admission_number: data.admission_number,
+      gender: data.gender,
+      date_of_birth: data.date_of_birth,
+      class_name: data.class_name,
+      parent_name: data.parent_name,
+      parent_phone: data.parent_phone,
+      photo_url: data.photo_url || null,
+      status: data.status,
+    };
+
+    console.log("Student Data:", studentData);
     console.log("Student Photo:", photo);
 
-    // Later:
-    // 1. Upload photo to Supabase Storage
-    // 2. Get photo URL
-    // 3. Save student information + photo URL to students table
+    addStudent(studentData, {
+      onSuccess: () => {
+        reset();
 
-    reset();
-    setPhoto(null);
-    setPhotoPreview(null);
+        setPhoto(null);
+        setPhotoPreview(null);
+
+        // Optional: go back after successful submission
+        // navigate(-1);
+      },
+    });
   };
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="mx-auto max-w-4xl">
-        {/* Header */}
+        {/* =========================
+            HEADER
+        ========================== */}
+
         <div className="mb-6 flex items-center gap-4">
           <button
             type="button"
-            onClick={() => navigate(-1)}
+            onClick={() => setShowAddStudent(false)}
             className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 hover:bg-slate-100"
           >
             <ArrowLeft size={20} />
@@ -86,12 +129,18 @@ export default function AddStudentForm() {
           </div>
         </div>
 
-        {/* Form */}
+        {/* =========================
+            FORM
+        ========================== */}
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
         >
-          {/* Section Header */}
+          {/* =========================
+              FORM TITLE
+          ========================== */}
+
           <div className="mb-6 flex items-center gap-3">
             <div className="rounded-lg bg-blue-50 p-2 text-blue-600">
               <UserPlus size={20} />
@@ -108,10 +157,12 @@ export default function AddStudentForm() {
             </div>
           </div>
 
-          {/* Student Photo */}
+          {/* =========================
+              STUDENT PHOTO
+          ========================== */}
+
           <div className="mb-8 flex flex-col items-center border-b border-slate-100 pb-8">
             <div className="relative">
-              {/* Photo */}
               <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-slate-100 bg-slate-100">
                 {photoPreview ? (
                   <img
@@ -124,7 +175,6 @@ export default function AddStudentForm() {
                 )}
               </div>
 
-              {/* Camera button */}
               <label
                 htmlFor="student-photo"
                 className="absolute bottom-1 right-1 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-blue-600 text-white shadow-md transition hover:bg-blue-700"
@@ -157,39 +207,62 @@ export default function AddStudentForm() {
             </label>
           </div>
 
-          {/* Student Details */}
+          {/* =========================
+              HIDDEN PHOTO URL
+          ========================== */}
+
+          <input type="hidden" {...register("photo_url")} />
+
+          {/* =========================
+              STUDENT DETAILS
+          ========================== */}
+
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            {/* First Name */}
+            {/* FIRST NAME */}
+
             <Input
               label="First Name"
               placeholder="Enter first name"
-              {...register("firstName", {
+              {...register("first_name", {
                 required: "First name is required",
               })}
-              error={errors.firstName?.message}
+              error={errors.first_name?.message}
+            />
+            {/* Middle NAME */}
+
+            <Input
+              label="Middle Name"
+              placeholder="Enter Middle name"
+              {...register("middle_name", {
+                required: "middle name is required",
+              })}
+              error={errors.middle_name?.message}
             />
 
-            {/* Last Name */}
+            {/* LAST NAME */}
+
             <Input
               label="Last Name"
               placeholder="Enter last name"
-              {...register("lastName", {
+              {...register("last_name", {
                 required: "Last name is required",
               })}
-              error={errors.lastName?.message}
+              error={errors.last_name?.message}
             />
 
-            {/* Admission Number */}
+            {/* ADMISSION NUMBER */}
+
             <Input
               label="Admission Number"
               placeholder="e.g. SCH/2026/001"
-              {...register("admissionNumber", {
+              {...register("admission_number", {
                 required: "Admission number is required",
               })}
-              error={errors.admissionNumber?.message}
+              error={errors.admission_number?.message}
             />
 
-            {/* Gender */}
+            {/* GENDER */}
+
             <div className="space-y-1">
               <label className="block text-sm font-medium text-slate-700">
                 Gender
@@ -213,29 +286,31 @@ export default function AddStudentForm() {
               )}
             </div>
 
-            {/* Date of Birth */}
+            {/* DATE OF BIRTH */}
+
             <Input
               label="Date of Birth"
               type="date"
-              {...register("dateOfBirth", {
+              {...register("date_of_birth", {
                 required: "Date of birth is required",
               })}
-              error={errors.dateOfBirth?.message}
+              error={errors.date_of_birth?.message}
             />
 
-            {/* Class */}
+            {/* CLASS NAME */}
+
             <div className="space-y-1">
               <label className="block text-sm font-medium text-slate-700">
                 Class
               </label>
 
               <select
-                {...register("className", {
+                {...register("class_name", {
                   required: "Class is required",
                 })}
                 className={`w-full rounded-lg border px-4 py-3 text-sm outline-none
                   focus:border-blue-500 focus:ring-2 focus:ring-blue-100
-                  ${errors.className ? "border-red-400" : "border-slate-300"}`}
+                  ${errors.class_name ? "border-red-400" : "border-slate-300"}`}
               >
                 <option value="">Select class</option>
                 <option value="JSS 1A">JSS 1A</option>
@@ -246,44 +321,78 @@ export default function AddStudentForm() {
                 <option value="JSS 3B">JSS 3B</option>
               </select>
 
-              {errors.className && (
+              {errors.class_name && (
                 <p className="text-xs text-red-500">
-                  {errors.className.message}
+                  {errors.class_name.message}
                 </p>
               )}
             </div>
 
-            {/* Parent Name */}
+            {/* STATUS */}
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-slate-700">
+                Status
+              </label>
+
+              <select
+                {...register("status", {
+                  required: "Status is required",
+                })}
+                className={`w-full rounded-lg border px-4 py-3 text-sm outline-none
+                  focus:border-blue-500 focus:ring-2 focus:ring-blue-100
+                  ${errors.status ? "border-red-400" : "border-slate-300"}`}
+              >
+                <option value="">Select status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="graduated">Graduated</option>
+                <option value="withdrawn">Withdrawn</option>
+              </select>
+
+              {errors.status && (
+                <p className="text-xs text-red-500">{errors.status.message}</p>
+              )}
+            </div>
+
+            {/* PARENT NAME */}
+
             <Input
               label="Parent/Guardian Name"
               placeholder="Enter parent or guardian name"
-              {...register("parentName", {
-                required: "Parent/guardian name is required",
-              })}
-              error={errors.parentName?.message}
+              {...register("parent_name")}
+              error={errors.parent_name?.message}
             />
 
-            {/* Parent Phone */}
+            {/* PARENT PHONE */}
+
             <Input
               label="Parent/Guardian Phone"
               type="tel"
               placeholder="08012345678"
-              {...register("parentPhone", {
-                required: "Parent phone number is required",
-                pattern: {
-                  value: /^[0-9+\-\s()]{10,15}$/,
-                  message: "Enter a valid phone number",
-                },
-              })}
-              error={errors.parentPhone?.message}
+              {...register("parent_phone")}
+              error={errors.parent_phone?.message}
             />
           </div>
 
-          {/* Buttons */}
+          {/* =========================
+              SUBMIT ERROR
+          ========================== */}
+
+          {submitError && (
+            <div className="mt-6 rounded-lg bg-red-50 p-3 text-sm text-red-600">
+              {submitError.message}
+            </div>
+          )}
+
+          {/* =========================
+              BUTTONS
+          ========================== */}
+
           <div className="mt-8 flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
             <button
               type="button"
-              onClick={() => navigate(-1)}
+              onClick={() => setShowAddStudent(false)}
               className="rounded-lg border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               Cancel
@@ -291,10 +400,10 @@ export default function AddStudentForm() {
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSubmitting ? "Saving..." : "Add Student"}
+              {isPending ? "Saving..." : "Add Student"}
             </button>
           </div>
         </form>

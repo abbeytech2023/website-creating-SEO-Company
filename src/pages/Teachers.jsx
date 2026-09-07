@@ -12,6 +12,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import AddTeacherForm from "../components/AddTeacherForm";
 
 const teachersData = [
   {
@@ -183,6 +184,18 @@ export default function Teachers() {
     (teacher) => teacher.gender === "Female",
   ).length;
 
+  const [showAddTeacher, setShowAddTeacher] = useState(false);
+
+  // Show Add Teacher Form
+  if (showAddTeacher) {
+    return (
+      <AddTeacherForm
+        showAddTeacher={showAddTeacher}
+        setShowAddTeacher={setShowAddTeacher}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -199,7 +212,9 @@ export default function Teachers() {
           </div>
 
           <button
-            onClick={() => console.log("Add teacher")}
+            onClick={() => {
+              setShowAddTeacher(true);
+            }}
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
           >
             <Plus size={18} />
