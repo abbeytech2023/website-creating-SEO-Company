@@ -66,8 +66,6 @@ export async function login({ email, password }) {
 
   console.log(error);
 
-  console.log(data);
-
   return data;
 }
 
@@ -77,8 +75,6 @@ export async function getCurrentUser() {
   if (!session.session) return null;
 
   const { data, error } = await supabase.auth.getUser();
-
-  // console.log(data);
 
   return data?.user;
 }

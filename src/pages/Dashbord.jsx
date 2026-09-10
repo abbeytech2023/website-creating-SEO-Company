@@ -16,6 +16,8 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { useProfile } from "../hooks/useProfile";
+import { useStudents } from "../hooks/useStudents";
 
 const resultProgress = [
   { name: "JSS 1A", progress: 100 },
@@ -27,6 +29,11 @@ const resultProgress = [
 export default function AdminDashboard() {
   const [activePanel, setActivePanel] = useState(null);
   const [showAddStudent, setShowAddStudent] = useState(false);
+  const { profile } = useProfile();
+  const { students, isLoading, error } = useStudents();
+  const schName = profile?.schoolName;
+
+  console.log(students);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -50,7 +57,7 @@ export default function AdminDashboard() {
             </div>
             <div>
               <p className="text-base font-bold tracking-tight text-slate-900">
-                Excellence Academy
+                {schName}
               </p>
               <p className="text-xs font-medium text-slate-500">
                 Administrator workspace
@@ -105,13 +112,15 @@ export default function AdminDashboard() {
           className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
           aria-label="School overview"
         >
-          <StatCard
-            icon={Users}
-            label="Students"
-            value="248"
-            detail="12 new this term"
-            accent="indigo"
-          />
+          {students && (
+            <StatCard
+              icon={Users}
+              label="Students"
+              value={students.length}
+              // detail="12 new this term"
+              accent="indigo"
+            />
+          )}
           <StatCard
             icon={UserCheck}
             label="Teachers"

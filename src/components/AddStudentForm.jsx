@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, UserPlus, Camera, User } from "lucide-react";
 import { useAddStudent } from "../hooks/useStudents";
+import { useProfile } from "../hooks/useProfile";
 
 const Input = React.forwardRef(({ label, error, ...props }, ref) => {
   return (
@@ -31,6 +32,10 @@ export default function AddStudentForm({ showAddStudent, setShowAddStudent }) {
 
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
+
+  const { profile } = useProfile();
+
+  const schUid = profile?.uid;
 
   // =========================
   // ADD STUDENT HOOK
@@ -86,10 +91,9 @@ export default function AddStudentForm({ showAddStudent, setShowAddStudent }) {
       parent_phone: data.parent_phone,
       photo_url: data.photo_url || null,
       status: data.status,
-    };
 
-    console.log("Student Data:", studentData);
-    console.log("Student Photo:", photo);
+      sch_uid: schUid,
+    };
 
     addStudent(studentData, {
       onSuccess: () => {

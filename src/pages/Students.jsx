@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
+
 import AddStudentForm from "../components/AddStudentForm";
+import { useStudents } from "../hooks/useStudents";
 
 import {
   Search,
@@ -15,142 +17,63 @@ import {
 } from "lucide-react";
 
 export default function Students() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [classFilter, setClassFilter] = useState("All Classes");
-  const [statusFilter, setStatusFilter] = useState("All Status");
-  const [openMenu, setOpenMenu] = useState(null);
+  const [search_term, set_search_term] = useState("");
+  const [class_filter, set_class_filter] = useState("All Classes");
+  const [status_filter, set_status_filter] = useState("All Status");
+  const [open_menu, set_open_menu] = useState(null);
+
+  const { students = [], isLoading, error } = useStudents();
 
   // =========================
   // ADD STUDENT FORM STATE
   // =========================
 
-  const [showAddStudent, setShowAddStudent] = useState(false);
+  const [show_add_student, set_show_add_student] = useState(false);
 
-  // Mock student data
-  const students = [
-    {
-      id: 1,
-      admissionNumber: "GHS/2026/001",
-      firstName: "David",
-      middleName: "John",
-      lastName: "Adeyemi",
-      gender: "Male",
-      dateOfBirth: "2012-04-15",
-      class: "JSS 1A",
-      status: "Active",
-      phone: "08012345678",
-    },
-    {
-      id: 2,
-      admissionNumber: "GHS/2026/002",
-      firstName: "Sarah",
-      middleName: "Grace",
-      lastName: "Okafor",
-      gender: "Female",
-      dateOfBirth: "2012-07-21",
-      class: "JSS 1A",
-      status: "Active",
-      phone: "08023456789",
-    },
-    {
-      id: 3,
-      admissionNumber: "GHS/2026/003",
-      firstName: "Michael",
-      middleName: "David",
-      lastName: "Johnson",
-      gender: "Male",
-      dateOfBirth: "2011-11-03",
-      class: "JSS 1B",
-      status: "Active",
-      phone: "08034567890",
-    },
-    {
-      id: 4,
-      admissionNumber: "GHS/2026/004",
-      firstName: "Esther",
-      middleName: "Peace",
-      lastName: "Williams",
-      gender: "Female",
-      dateOfBirth: "2012-01-18",
-      class: "JSS 1B",
-      status: "Active",
-      phone: "08045678901",
-    },
-    {
-      id: 5,
-      admissionNumber: "GHS/2026/005",
-      firstName: "Daniel",
-      middleName: "Samuel",
-      lastName: "Bello",
-      gender: "Male",
-      dateOfBirth: "2010-09-12",
-      class: "JSS 2A",
-      status: "Active",
-      phone: "08056789012",
-    },
-    {
-      id: 6,
-      admissionNumber: "GHS/2026/006",
-      firstName: "Blessing",
-      middleName: "Mary",
-      lastName: "Adebayo",
-      gender: "Female",
-      dateOfBirth: "2011-02-28",
-      class: "JSS 2A",
-      status: "Active",
-      phone: "08067890123",
-    },
-    {
-      id: 7,
-      admissionNumber: "GHS/2026/007",
-      firstName: "Samuel",
-      middleName: "Peter",
-      lastName: "Olawale",
-      gender: "Male",
-      dateOfBirth: "2010-06-17",
-      class: "JSS 2B",
-      status: "Inactive",
-      phone: "08078901234",
-    },
-    {
-      id: 8,
-      admissionNumber: "GHS/2026/008",
-      firstName: "Mary",
-      middleName: "Jane",
-      lastName: "Eze",
-      gender: "Female",
-      dateOfBirth: "2010-12-09",
-      class: "JSS 2B",
-      status: "Active",
-      phone: "08089012345",
-    },
-  ];
+  // =========================
+  // FILTER STUDENTS
+  // =========================
 
-  const filteredStudents = useMemo(() => {
+  const filtered_students = useMemo(() => {
     return students.filter((student) => {
-      const fullName = `${student.firstName} ${student.middleName} ${student.lastName}`;
+      const full_name = `${student.first_name || ""} ${
+        student.middle_name || ""
+      } ${student.last_name || ""}`;
 
-      const matchesSearch =
-        fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.admissionNumber
+      const matches_search =
+        full_name.toLowerCase().includes(search_term.toLowerCase()) ||
+        (student.admission_number || "")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+          .includes(search_term.toLowerCase());
 
-      const matchesClass =
-        classFilter === "All Classes" || student.class === classFilter;
+      const matches_class =
+        class_filter === "All Classes" || student.class_name === class_filter;
 
-      const matchesStatus =
-        statusFilter === "All Status" || student.status === statusFilter;
+      const matches_status =
+        status_filter === "All Status" || student.status === status_filter;
 
-      return matchesSearch && matchesClass && matchesStatus;
+      return matches_search && matches_class && matches_status;
     });
-  }, [searchTerm, classFilter, statusFilter]);
+  }, [students, search_term, class_filter, status_filter]);
 
-  const getInitials = (student) => {
-    return `${student.firstName[0]}${student.lastName[0]}`.toUpperCase();
+  // =========================
+  // GET INITIALS
+  // =========================
+
+  const get_initials = (student) => {
+    const first_initial = student.first_name?.[0] || "";
+    const last_initial = student.last_name?.[0] || "";
+
+    return `${first_initial}${last_initial}`.toUpperCase();
   };
 
-  const formatDate = (date) => {
+  // =========================
+  // FORMAT DATE
+  // =========================
+
+  const format_date = (date) => {
+    if (!date) return "-";
+
     return new Date(date).toLocaleDateString("en-NG", {
       day: "numeric",
       month: "short",
@@ -159,14 +82,38 @@ export default function Students() {
   };
 
   // =========================
+  // LOADING
+  // =========================
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <p className="text-sm text-slate-500">Loading students...</p>
+      </div>
+    );
+  }
+
+  // =========================
+  // ERROR
+  // =========================
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+        <p className="text-sm text-red-500">{error.message}</p>
+      </div>
+    );
+  }
+
+  // =========================
   // SHOW ADD STUDENT FORM
   // =========================
 
-  if (showAddStudent) {
+  if (show_add_student) {
     return (
       <AddStudentForm
-        setShowAddStudent={setShowAddStudent}
-        showAddStudent={showAddStudent}
+        setShowAddStudent={set_show_add_student}
+        showAddStudent={show_add_student}
       />
     );
   }
@@ -194,7 +141,7 @@ export default function Students() {
 
             <button
               type="button"
-              onClick={() => setShowAddStudent(true)}
+              onClick={() => set_show_add_student(true)}
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
             >
               <Plus size={18} />
@@ -220,17 +167,23 @@ export default function Students() {
 
           <SummaryCard
             label="Active Students"
-            value={students.filter((s) => s.status === "Active").length}
+            value={
+              students.filter((student) => student.status === "active").length
+            }
           />
 
           <SummaryCard
             label="Male Students"
-            value={students.filter((s) => s.gender === "Male").length}
+            value={
+              students.filter((student) => student.gender === "Male").length
+            }
           />
 
           <SummaryCard
             label="Female Students"
-            value={students.filter((s) => s.gender === "Female").length}
+            value={
+              students.filter((student) => student.gender === "Female").length
+            }
           />
         </div>
 
@@ -254,8 +207,8 @@ export default function Students() {
                 <input
                   type="text"
                   placeholder="Search student or admission number..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={search_term}
+                  onChange={(event) => set_search_term(event.target.value)}
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-100"
                 />
               </div>
@@ -270,8 +223,8 @@ export default function Students() {
                   />
 
                   <select
-                    value={classFilter}
-                    onChange={(e) => setClassFilter(e.target.value)}
+                    value={class_filter}
+                    onChange={(event) => set_class_filter(event.target.value)}
                     className="w-full appearance-none rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-8 text-sm text-slate-700 outline-none focus:border-emerald-500 sm:w-44"
                   >
                     <option>All Classes</option>
@@ -283,13 +236,15 @@ export default function Students() {
                 </div>
 
                 <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
+                  value={status_filter}
+                  onChange={(event) => set_status_filter(event.target.value)}
                   className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 outline-none focus:border-emerald-500 sm:w-36"
                 >
                   <option>All Status</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="graduated">Graduated</option>
+                  <option value="withdrawn">Withdrawn</option>
                 </select>
               </div>
             </div>
@@ -301,7 +256,7 @@ export default function Students() {
             <p className="text-sm text-slate-500">
               Showing{" "}
               <span className="font-semibold text-slate-700">
-                {filteredStudents.length}
+                {filtered_students.length}
               </span>{" "}
               of{" "}
               <span className="font-semibold text-slate-700">
@@ -348,34 +303,34 @@ export default function Students() {
               </thead>
 
               <tbody className="divide-y divide-slate-100">
-                {filteredStudents.map((student) => (
+                {filtered_students.map((student) => (
                   <tr key={student.id} className="transition hover:bg-slate-50">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">
-                          {getInitials(student)}
+                          {get_initials(student)}
                         </div>
 
                         <div>
                           <p className="font-semibold text-slate-900">
-                            {student.firstName} {student.middleName}{" "}
-                            {student.lastName}
+                            {student.first_name} {student.middle_name}{" "}
+                            {student.last_name}
                           </p>
 
                           <p className="text-xs text-slate-500">
-                            {student.phone}
+                            {student.parent_phone || "-"}
                           </p>
                         </div>
                       </div>
                     </td>
 
                     <td className="px-5 py-4 text-sm font-medium text-slate-700">
-                      {student.admissionNumber}
+                      {student.admission_number}
                     </td>
 
                     <td className="px-5 py-4">
                       <span className="rounded-lg bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-700">
-                        {student.class}
+                        {student.class_name}
                       </span>
                     </td>
 
@@ -384,7 +339,7 @@ export default function Students() {
                     </td>
 
                     <td className="px-5 py-4 text-sm text-slate-600">
-                      {formatDate(student.dateOfBirth)}
+                      {format_date(student.date_of_birth)}
                     </td>
 
                     <td className="px-5 py-4">
@@ -394,8 +349,8 @@ export default function Students() {
                     <td className="relative px-5 py-4 text-right">
                       <button
                         onClick={() =>
-                          setOpenMenu(
-                            openMenu === student.id ? null : student.id,
+                          set_open_menu(
+                            open_menu === student.id ? null : student.id,
                           )
                         }
                         className="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
@@ -403,7 +358,7 @@ export default function Students() {
                         <MoreHorizontal size={20} />
                       </button>
 
-                      {openMenu === student.id && <ActionMenu />}
+                      {open_menu === student.id && <ActionMenu />}
                     </td>
                   </tr>
                 ))}
@@ -414,28 +369,30 @@ export default function Students() {
           {/* MOBILE */}
 
           <div className="divide-y divide-slate-100 md:hidden">
-            {filteredStudents.map((student) => (
+            {filtered_students.map((student) => (
               <div key={student.id} className="p-5">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-50 text-sm font-bold text-emerald-700">
-                      {getInitials(student)}
+                      {get_initials(student)}
                     </div>
 
                     <div>
                       <h3 className="font-semibold text-slate-900">
-                        {student.firstName} {student.lastName}
+                        {student.first_name} {student.last_name}
                       </h3>
 
                       <p className="text-xs text-slate-500">
-                        {student.admissionNumber}
+                        {student.admission_number}
                       </p>
                     </div>
                   </div>
 
                   <button
                     onClick={() =>
-                      setOpenMenu(openMenu === student.id ? null : student.id)
+                      set_open_menu(
+                        open_menu === student.id ? null : student.id,
+                      )
                     }
                     className="rounded-lg p-2 text-slate-400 hover:bg-slate-100"
                   >
@@ -444,13 +401,13 @@ export default function Students() {
                 </div>
 
                 <div className="mt-5 grid grid-cols-2 gap-4">
-                  <StudentDetail label="Class" value={student.class} />
+                  <StudentDetail label="Class" value={student.class_name} />
 
                   <StudentDetail label="Gender" value={student.gender} />
 
                   <StudentDetail
                     label="Date of Birth"
-                    value={formatDate(student.dateOfBirth)}
+                    value={format_date(student.date_of_birth)}
                   />
 
                   <StudentDetail
@@ -459,7 +416,7 @@ export default function Students() {
                   />
                 </div>
 
-                {openMenu === student.id && (
+                {open_menu === student.id && (
                   <div className="mt-4">
                     <ActionMenu />
                   </div>
@@ -470,7 +427,7 @@ export default function Students() {
 
           {/* EMPTY STATE */}
 
-          {filteredStudents.length === 0 && (
+          {filtered_students.length === 0 && (
             <div className="px-5 py-16 text-center">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
                 <Users size={24} className="text-slate-400" />
@@ -488,7 +445,7 @@ export default function Students() {
 
           {/* PAGINATION */}
 
-          {filteredStudents.length > 0 && (
+          {filtered_students.length > 0 && (
             <div className="flex items-center justify-between border-t border-slate-200 px-5 py-4">
               <p className="text-xs text-slate-500 sm:text-sm">Page 1 of 1</p>
 
@@ -544,19 +501,19 @@ function SummaryCard({ icon, label, value }) {
 ========================================= */
 
 function StatusBadge({ status }) {
-  const isActive = status === "Active";
+  const is_active = status === "active";
 
   return (
     <span
       className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
-        isActive
+        is_active
           ? "bg-emerald-50 text-emerald-700"
           : "bg-slate-100 text-slate-500"
       }`}
     >
       <span
         className={`mr-1.5 h-1.5 w-1.5 rounded-full ${
-          isActive ? "bg-emerald-500" : "bg-slate-400"
+          is_active ? "bg-emerald-500" : "bg-slate-400"
         }`}
       />
 
