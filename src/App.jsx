@@ -123,26 +123,47 @@ export default function App() {
       ================================= */}
 
       <Toaster
-        position="top-center"
-        gutter={12}
+        position="top-right"
+        gutter={10}
         containerStyle={{
-          margin: "8px",
+          top: 20,
+          right: 20,
         }}
         toastOptions={{
+          duration: 3500,
+
+          style: {
+            fontSize: "14px",
+            fontWeight: "500",
+            borderRadius: "12px",
+            padding: "14px 18px",
+            background: "#ffffff",
+            color: "#1f2937",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.10)",
+            border: "1px solid #e5e7eb",
+            maxWidth: "380px",
+          },
+
           success: {
             duration: 3000,
+            iconTheme: {
+              primary: "#16a34a",
+              secondary: "#ffffff",
+            },
+            style: {
+              border: "1px solid #bbf7d0",
+            },
           },
 
           error: {
-            duration: 2000,
-          },
-
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "#eaf2f4",
-            color: "#000",
+            duration: 4000,
+            iconTheme: {
+              primary: "#dc2626",
+              secondary: "#ffffff",
+            },
+            style: {
+              border: "1px solid #fecaca",
+            },
           },
         }}
       />

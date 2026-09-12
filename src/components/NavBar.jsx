@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
+import { Spinner } from "./Spinner";
 
 import {
   BarChart3,
@@ -23,7 +24,7 @@ export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const { logout } = useLogout();
+  const { logout, isPending } = useLogout();
 
   const navigation = [
     {
@@ -76,6 +77,8 @@ export default function Navigation() {
   const closeMobileMenu = () => {
     setMobileOpen(false);
   };
+
+  if (isPending) return <Spinner />;
 
   return (
     <>
