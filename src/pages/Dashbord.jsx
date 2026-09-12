@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AddStudentForm from "../components/AddStudentForm";
 import AddTeacherForm from "../components/AddTeacherForm";
 import TeacherList from "../components/TeacherList";
+import { useSchool } from "../hooks/useSchool";
 import {
   ArrowRight,
   Bell,
@@ -29,11 +30,10 @@ const resultProgress = [
 export default function AdminDashboard() {
   const [activePanel, setActivePanel] = useState(null);
   const [showAddStudent, setShowAddStudent] = useState(false);
+  const { school, isLoading: schoolLoading } = useSchool();
   const { profile } = useProfile();
   const { students, isLoading, error } = useStudents();
-  const schName = profile?.schoolName;
-
-  console.log(students);
+  const schName = school?.school_name;
 
   useEffect(() => {
     const handleKeyDown = (event) => {

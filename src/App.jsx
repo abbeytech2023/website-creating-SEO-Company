@@ -1,9 +1,14 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoutes";
+import PublicRoute from "./components/PublicRoutes";
+
+import { Routes, Route, useLocation, Navigate, Outlet } from "react-router-dom";
+
 import { Toaster } from "react-hot-toast";
 
 import { Spinner } from "./components/Spinner";
 import Navigation from "./components/NavBar";
+
 import { useAuthContext } from "./hooks/useAuthContext";
 
 import Home from "./pages/Home";
@@ -16,27 +21,25 @@ import Results from "./pages/Results";
 
 // Dashboard pages
 import Students from "./pages/Students";
+import Profile from "./pages/Profile";
 import Teachers from "./pages/Teachers";
 import Classes from "./pages/Classes";
 import Subjects from "./pages/Subjects";
-// import Assignments from "./pages/Assignments";
 import ReportCards from "./pages/ReportCards";
 import ExamsCA from "./pages/Exams-Ca";
-// import Settings from "./pages/Settings";
-// import Profile from "./pages/Profile";
 
 /* =========================================
    Dashboard Layout
 ========================================= */
 
-function DashboardLayout({ children }) {
+function DashboardLayout() {
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Sidebar / Navigation */}
       <Navigation />
 
-      {/* Main Content */}
-      <main className="min-h-screen lg:ml-64">{children}</main>
+      <main className="min-h-screen lg:ml-64">
+        <Outlet />
+      </main>
     </div>
   );
 }
@@ -47,6 +50,7 @@ function DashboardLayout({ children }) {
 
 export default function App() {
   const { authIsReady } = useAuthContext();
+
   const location = useLocation();
 
   /* Scroll to top whenever route changes */
@@ -54,6 +58,7 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  /* Wait for Supabase to check the session */
   if (!authIsReady) {
     return <Spinner />;
   }
@@ -67,120 +72,50 @@ export default function App() {
 
         <Route path="/" element={<Home />} />
 
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/register" element={<Register />} />
-
-        {/* =================================
-            SCHOOL DEMO PAGES
-        ================================= */}
+        {/* Login & Register */}
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
 
         {/* =================================
-            ADMIN APPLICATION
+            PROTECTED APPLICATION
         ================================= */}
 
-        <Route
-          path="/dashboard"
-          element={
-            <DashboardLayout>
-              <AdminDashboard />
-            </DashboardLayout>
-          }
-        />
+        <Route element={<ProtectedRoute />}>
+          {/* Dashboard Layout */}
+          <Route element={<DashboardLayout />}>
+            {/* Admin Dashboard */}
+            <Route path="/dashboard" element={<AdminDashboard />} />
 
-        <Route
-          path="/students"
-          element={
-            <DashboardLayout>
-              <Students />
-            </DashboardLayout>
-          }
-        />
+            {/* Students */}
+            <Route path="/students" element={<Students />} />
 
-        <Route
-          path="/teachers"
-          element={
-            <DashboardLayout>
-              <Teachers />
-            </DashboardLayout>
-          }
-        />
+            {/* Teachers */}
+            <Route path="/teachers" element={<Teachers />} />
 
-        <Route
-          path="/classes"
-          element={
-            <DashboardLayout>
-              <Classes />
-            </DashboardLayout>
-          }
-        />
+            {/* school profiles */}
+            <Route path="/profile" element={<Profile />} />
 
-        <Route
-          path="/subjects"
-          element={
-            <DashboardLayout>
-              <Subjects />
-            </DashboardLayout>
-          }
-        />
+            {/* Classes */}
+            <Route path="/classes" element={<Classes />} />
 
-        <Route
-          path="/exams-ca"
-          element={
-            <DashboardLayout>
-              <ExamsCA />
-            </DashboardLayout>
-          }
-        />
+            {/* Subjects */}
+            <Route path="/subjects" element={<Subjects />} />
 
-        <Route
-          path="/results"
-          element={
-            <DashboardLayout>
-              <Results />
-            </DashboardLayout>
-          }
-        />
+            {/* Exams & CA */}
+            <Route path="/exams-ca" element={<ExamsCA />} />
 
-        <Route
-          path="/report-cards"
-          element={
-            <DashboardLayout>
-              <ReportCards />
-            </DashboardLayout>
-          }
-        />
+            {/* Results */}
+            <Route path="/results" element={<Results />} />
 
-        {/* <Route
-          path="/settings"
-          element={
-            <DashboardLayout>
-              <Settings />
-            </DashboardLayout>
-          }
-        /> */}
+            {/* Report Cards */}
+            <Route path="/report-cards" element={<ReportCards />} />
 
-        {/* <Route
-          path="/profile"
-          element={
-            <DashboardLayout>
-              <Profile />
-            </DashboardLayout>
-          }
-        /> */}
-
-        {/* =================================
-            TEACHER APPLICATION
-        ================================= */}
-
-        <Route
-          path="/teacher"
-          element={
-            <DashboardLayout>
-              <TeacherDashboard />
-            </DashboardLayout>
-          }
-        />
+            {/* Teacher Dashboard */}
+            <Route path="/teacher" element={<TeacherDashboard />} />
+          </Route>
+        </Route>
       </Routes>
 
       {/* =================================

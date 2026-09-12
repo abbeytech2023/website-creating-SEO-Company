@@ -14,7 +14,7 @@ export function useSignup() {
 
     onSuccess: () => {
       toast.success("Account created successfully");
-      navigate("/");
+      navigate("/dashboard");
     },
 
     onError: (err) => {

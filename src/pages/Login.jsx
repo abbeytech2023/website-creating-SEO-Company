@@ -19,8 +19,6 @@ export default function Login() {
   const { login, isPending } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
 
-  console.log(isPending);
-
   const {
     register,
     handleSubmit,
