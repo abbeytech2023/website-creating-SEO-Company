@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import { Spinner } from "./Spinner";
 
@@ -88,7 +88,10 @@ export default function Navigation() {
 
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-200 bg-white lg:flex lg:flex-col">
         {/* Logo */}
-        <div className="flex h-20 shrink-0 items-center border-b border-slate-200 px-6">
+        <Link
+          to="/"
+          className="flex h-20 shrink-0 items-center border-b border-slate-200 px-6"
+        >
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white">
               <GraduationCap size={22} />
@@ -102,7 +105,7 @@ export default function Navigation() {
               <p className="text-xs text-slate-500">School Management</p>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-6">

@@ -1,6 +1,6 @@
 import { supabase } from "./supabaseClients";
 
-export async function addStudent(TeacherData) {
+export async function addTeacher(TeacherData) {
   const { data, error } = await supabase
     .from("teacher")
     .insert([TeacherData])

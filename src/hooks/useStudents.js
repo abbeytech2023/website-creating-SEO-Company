@@ -44,8 +44,6 @@ export function useStudents() {
     queryFn: getStudents,
   });
 
-  console.log(students);
-
   return {
     students,
     isLoading,

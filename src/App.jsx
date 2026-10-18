@@ -70,11 +70,10 @@ export default function App() {
             PUBLIC PAGES
         ================================= */}
 
-        <Route path="/" element={<Home />} />
-
         {/* Login & Register */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
         </Route>
 
