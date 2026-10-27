@@ -234,7 +234,7 @@ export default function SchoolProfile({ school_id }) {
             </div>
 
             <div className="pb-1">
-              <h2 className="text-xl font-bold text-slate-900">
+              <h2 className="text-xl font-bold mt-12 uppercase text-slate-900">
                 {school.school_name}
               </h2>
 
@@ -262,7 +262,7 @@ export default function SchoolProfile({ school_id }) {
         <div className="grid gap-6 p-6 md:grid-cols-2">
           {/* School Name */}
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-700">
+            <label className="mb-2 block text-sm font-medium  text-slate-700">
               School Name
             </label>
 

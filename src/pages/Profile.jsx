@@ -3,6 +3,7 @@ import { School, ShieldCheck, Settings2, ChevronRight } from "lucide-react";
 import PictureUpload from "../components/pictureUpload";
 import SchoolProfile from "../components/SchoolProfile";
 import { useSchool } from "../hooks/useSchool";
+import ProfileImageUploader from "../components/ProfileImageUploader";
 
 export default function Profile() {
   const { school } = useSchool();
@@ -54,7 +55,7 @@ export default function Profile() {
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
+                <h2 className="text-xl uppercase font-bold text-slate-900 sm:text-2xl">
                   {school?.school_name || "Your School"}
                 </h2>
 
@@ -105,7 +106,8 @@ export default function Profile() {
               </div>
 
               <div className="p-5">
-                <PictureUpload />
+                {/* <PictureUpload /> */}
+                <ProfileImageUploader user={school} />
               </div>
             </div>
 

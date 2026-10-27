@@ -27,16 +27,24 @@ import Classes from "./pages/Classes";
 import Subjects from "./pages/Subjects";
 import ReportCards from "./pages/ReportCards";
 import ExamsCA from "./pages/Exams-Ca";
+import AccademicSessionPage from "./pages/AccademicSessionPage";
+import Terms from "./pages/Terms";
+
+// HOOKS
+import useLogout from "./hooks/useLogout";
 
 /* =========================================
    Dashboard Layout
 ========================================= */
 
 function DashboardLayout() {
+  const { isPending } = useLogout();
+
+  if (isPending) return <Spinner />;
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Navigation />
-
       <main className="min-h-screen lg:ml-64">
         <Outlet />
       </main>
@@ -87,6 +95,8 @@ export default function App() {
             {/* Admin Dashboard */}
             <Route path="/dashboard" element={<AdminDashboard />} />
 
+            <Route path="/terms" element={<Terms />} />
+
             {/* Students */}
             <Route path="/students" element={<Students />} />
 
@@ -107,6 +117,12 @@ export default function App() {
 
             {/* Results */}
             <Route path="/results" element={<Results />} />
+
+            {/*accademic_swssion */}
+            <Route
+              path="/accademic_session"
+              element={<AccademicSessionPage />}
+            />
 
             {/* Report Cards */}
             <Route path="/report-cards" element={<ReportCards />} />

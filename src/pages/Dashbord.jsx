@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Greeting from "../components/Greetings";
 import { Link } from "react-router-dom";
 import AddStudentForm from "../components/AddStudentForm";
 import AddTeacherForm from "../components/AddTeacherForm";
 import TeacherList from "../components/TeacherList";
 import { useSchool } from "../hooks/useSchool";
+import useLogout from "../hooks/useLogout";
 import {
   ArrowRight,
   Bell,
@@ -49,199 +51,200 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#f7f8fc] text-slate-900">
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
-          <Link to="/" className="group flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-              <GraduationCap size={21} />
-            </div>
-            <div>
-              <p className="text-base font-bold tracking-tight text-slate-900">
-                {schName}
-              </p>
-              <p className="text-xs font-medium text-slate-500">
-                Administrator workspace
-              </p>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              type="button"
-              aria-label="View notifications"
-              className="relative grid h-10 w-10 place-items-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <Bell size={20} />
-              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-white bg-rose-500" />
-            </button>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white shadow-md shadow-indigo-200">
-              A
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10">
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-600 px-6 py-7 text-white shadow-xl shadow-indigo-200 sm:px-9 sm:py-9">
-          <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
-          <div className="absolute -bottom-28 right-24 h-48 w-48 rounded-full border-[24px] border-white/10" />
-          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-indigo-50">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                2025/2026 academic session
+      <>
+        <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+            <Link to="/" className="group flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
+                <GraduationCap size={21} />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Good morning, Admin
-              </h1>
-              <p className="mt-2 text-sm text-indigo-100 sm:text-base">
-                Everything is on track for{" "}
-                <span className="font-semibold text-white">Second Term</span>.
-              </p>
-            </div>
-            <Link
-              to="/results"
-              className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
-            >
-              Review results <ArrowRight size={16} />
+              <div>
+                <p className="text-base uppercase font-bold tracking-tight text-slate-900">
+                  {schName}
+                </p>
+                <p className="text-xs font-medium text-slate-500">
+                  Administrator workspace
+                </p>
+              </div>
             </Link>
+
+            <div className="flex items-center gap-2 sm:gap-3">
+              <button
+                type="button"
+                aria-label="View notifications"
+                className="relative grid h-10 w-10 place-items-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <Bell size={20} />
+                <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full border-2 border-white bg-rose-500" />
+              </button>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white shadow-md shadow-indigo-200">
+                A
+              </div>
+            </div>
           </div>
-        </section>
+        </header>
 
-        <section
-          className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
-          aria-label="School overview"
-        >
-          {students && (
-            <StatCard
-              icon={Users}
-              label="Students"
-              value={students.length}
-              // detail="12 new this term"
-              accent="indigo"
-            />
-          )}
-          <StatCard
-            icon={UserCheck}
-            label="Teachers"
-            value="18"
-            detail="View staff directory"
-            accent="violet"
-            onClick={() => setActivePanel("teachers")}
-          />
-          <StatCard
-            icon={ClipboardCheck}
-            label="Results ready"
-            value="75%"
-            detail="3 classes pending"
-            accent="emerald"
-          />
-          <StatCard
-            icon={FileText}
-            label="Reports"
-            value="186"
-            detail="Updated today"
-            accent="amber"
-          />
-        </section>
-
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,.75fr)]">
-          <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <SectionHeading
-              title="Result progress"
-              description="Current term result preparation"
-              action={
-                <Link
-                  to="/results"
-                  className="inline-flex items-center gap-1 text-sm font-bold text-indigo-600 hover:text-indigo-800"
-                >
-                  View all <ArrowRight size={16} />
-                </Link>
-              }
-            />
-            <div className="mt-6 space-y-5">
-              {resultProgress.map((item) => (
-                <ResultRow key={item.name} {...item} />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <SectionHeading
-              title="Quick actions"
-              description="Start a common task in one click"
-            />
-            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <ActionButton
-                icon={Plus}
-                title="Add student"
-                description="Create a new student record"
-                onClick={() => setActivePanel("student")}
-              />
-              <ActionButton
-                icon={UserCheck}
-                title="Add teacher"
-                description="Invite a staff member"
-                onClick={() => setActivePanel("teacher")}
-              />
-              <ActionButton
-                icon={ClipboardCheck}
-                title="Prepare results"
-                description="Enter and publish grades"
+        <main className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10">
+          <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-700 via-indigo-600 to-violet-600 px-6 py-7 text-white shadow-xl shadow-indigo-200 sm:px-9 sm:py-9">
+            <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
+            <div className="absolute -bottom-28 right-24 h-48 w-48 rounded-full border-[24px] border-white/10" />
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-indigo-50">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                  2025/2026 academic session
+                </div>
+                <Greeting />
+                <p className="mt-2 text-sm text-indigo-100 sm:text-base">
+                  Everything is on track for{" "}
+                  <span className="font-semibold text-white">Second Term</span>.
+                </p>
+              </div>
+              <Link
                 to="/results"
-              />
+                className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+              >
+                Review results <ArrowRight size={16} />
+              </Link>
             </div>
           </section>
-        </div>
 
-        <section className="mt-10">
-          <SectionHeading
-            title="Manage your school"
-            description="Jump to an area of the administration portal"
-          />
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <NavigationCard
-              icon={Users}
-              title="Students"
-              description="Profiles and enrollment"
-            />
-            <NavigationCard
+          <section
+            className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
+            aria-label="School overview"
+          >
+            {students && (
+              <StatCard
+                icon={Users}
+                label="Students"
+                value={students.length}
+                // detail="12 new this term"
+                accent="indigo"
+              />
+            )}
+            <StatCard
               icon={UserCheck}
-              title="Teachers"
-              description="Staff and assignments"
+              label="Teachers"
+              value="18"
+              detail="View staff directory"
+              accent="violet"
               onClick={() => setActivePanel("teachers")}
             />
-            <NavigationCard
+            <StatCard
               icon={ClipboardCheck}
-              title="Results"
-              description="Grades and performance"
-              to="/results"
+              label="Results ready"
+              value="75%"
+              detail="3 classes pending"
+              accent="emerald"
             />
-            <NavigationCard
-              icon={Settings}
-              title="Settings"
-              description="School preferences"
+            <StatCard
+              icon={FileText}
+              label="Reports"
+              value="186"
+              detail="Updated today"
+              accent="amber"
             />
-          </div>
-        </section>
-      </main>
+          </section>
 
-      {activePanel === "student" && (
-        <Modal title="Add a student" onClose={() => setActivePanel(null)}>
-          <AddStudentForm
-            showAddStudent={showAddStudent}
-            setShowAddStudent={setShowAddStudent}
-          />
-        </Modal>
-      )}
-      {activePanel === "teacher" && (
-        <Modal title="Add a teacher" onClose={() => setActivePanel(null)}>
-          <AddTeacherForm onClose={() => setActivePanel(null)} />
-        </Modal>
-      )}
-      {activePanel === "teachers" && (
-        <TeacherListOverlay onClose={() => setActivePanel(null)} />
-      )}
+          <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,.75fr)]">
+            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <SectionHeading
+                title="Result progress"
+                description="Current term result preparation"
+                action={
+                  <Link
+                    to="/results"
+                    className="inline-flex items-center gap-1 text-sm font-bold text-indigo-600 hover:text-indigo-800"
+                  >
+                    View all <ArrowRight size={16} />
+                  </Link>
+                }
+              />
+              <div className="mt-6 space-y-5">
+                {resultProgress.map((item) => (
+                  <ResultRow key={item.name} {...item} />
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <SectionHeading
+                title="Quick actions"
+                description="Start a common task in one click"
+              />
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                <ActionButton
+                  icon={Plus}
+                  title="Add student"
+                  description="Create a new student record"
+                  onClick={() => setActivePanel("student")}
+                />
+                <ActionButton
+                  icon={UserCheck}
+                  title="Add teacher"
+                  description="Invite a staff member"
+                  onClick={() => setActivePanel("teacher")}
+                />
+                <ActionButton
+                  icon={ClipboardCheck}
+                  title="Prepare results"
+                  description="Enter and publish grades"
+                  to="/results"
+                />
+              </div>
+            </section>
+          </div>
+
+          <section className="mt-10">
+            <SectionHeading
+              title="Manage your school"
+              description="Jump to an area of the administration portal"
+            />
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <NavigationCard
+                icon={Users}
+                title="Students"
+                description="Profiles and enrollment"
+              />
+              <NavigationCard
+                icon={UserCheck}
+                title="Teachers"
+                description="Staff and assignments"
+                onClick={() => setActivePanel("teachers")}
+              />
+              <NavigationCard
+                icon={ClipboardCheck}
+                title="Results"
+                description="Grades and performance"
+                to="/results"
+              />
+              <NavigationCard
+                icon={Settings}
+                title="Settings"
+                description="School preferences"
+              />
+            </div>
+          </section>
+        </main>
+
+        {activePanel === "student" && (
+          <Modal title="Add a student" onClose={() => setActivePanel(null)}>
+            <AddStudentForm
+              showAddStudent={showAddStudent}
+              setShowAddStudent={setShowAddStudent}
+            />
+          </Modal>
+        )}
+        {activePanel === "teacher" && (
+          <Modal title="Add a teacher" onClose={() => setActivePanel(null)}>
+            <AddTeacherForm onClose={() => setActivePanel(null)} />
+          </Modal>
+        )}
+        {activePanel === "teachers" && (
+          <TeacherListOverlay onClose={() => setActivePanel(null)} />
+        )}
+      </>
+      {/* )} */}
     </div>
   );
 }

@@ -1,80 +1,63 @@
-import { supabase } from "../services/supabaseClients";
+import { supabase } from "./supabaseClients";
+export async function apiUploadProfileImage({ file, userId }) {
+  if (!file) throw new Error("No file selected");
+  if (!userId) throw new Error("User not found");
 
-export async function uploadSchoolImage({ file, school_id }) {
-  if (!file) {
-    throw new Error("No file selected");
-  }
-
-  if (!school_id) {
-    throw new Error("School not found");
-  }
-
-  // 1. Get current school logo
-  const { data: current_school, error: fetch_error } = await supabase
+  // 🔹 1. Get current user (to access old image)
+  const { data: currentUser, error: fetchError } = await supabase
     .from("schools")
     .select("logo_url")
-    .eq("id", school_id)
+    .eq("id", userId)
     .single();
 
-  if (fetch_error) {
-    throw new Error(fetch_error.message);
-  }
+  if (fetchError) throw new Error(fetchError.message);
 
-  // 2. Upload new image
-  const file_ext = file.name.split(".").pop();
-  const file_name = `${Date.now()}.${file_ext}`;
-  const file_path = `${school_id}/${file_name}`;
+  // 🔹 2. Upload new image
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+  const filePath = `${userId}/${fileName}`;
 
-  const { error: upload_error } = await supabase.storage
-    .from("school-images")
-    .upload(file_path, file, {
+  const { error: uploadError } = await supabase.storage
+    .from("school-logo")
+    .upload(filePath, file, {
       upsert: true,
-      contentType: file.type,
     });
 
-  if (upload_error) {
-    throw new Error(upload_error.message);
-  }
+  if (uploadError) throw new Error(uploadError.message);
 
-  // 3. Get public URL
-  const { data } = supabase.storage
-    .from("school-images")
-    .getPublicUrl(file_path);
+  // 🔹 3. Get public URL
+  const { data } = supabase.storage.from("school-logo").getPublicUrl(filePath);
 
-  const new_image_url = data.publicUrl;
+  const newImageUrl = data.publicUrl;
 
-  // 4. Delete old image if one exists
-  if (current_school?.logo_url) {
+  // 🔥 4. Delete OLD image (if exists)
+  if (currentUser?.profilePicture) {
     try {
-      const old_url = current_school.logo_url;
+      const oldUrl = currentUser.profilePicture;
 
-      const url_parts = old_url.split(
-        "/storage/v1/object/public/school-images/",
-      );
+      // Extract path from URL
+      const urlParts = oldUrl.split("/storage/v1/object/public/school-logo/");
 
-      const old_path = url_parts[1];
+      const oldPath = urlParts[1];
 
-      if (old_path) {
-        await supabase.storage.from("school-images").remove([old_path]);
+      if (oldPath) {
+        await supabase.storage.from("school-logo").remove([oldPath]);
       }
-    } catch (error) {
-      console.warn("Old school logo deletion failed:", error.message);
+    } catch (err) {
+      console.warn("Old image deletion failed:", err.message);
+      // ❗ Don't block the flow if deletion fails
     }
   }
 
-  // 5. Update schools table with new image URL
-  const { data: updated_school, error: db_error } = await supabase
+  // 🔹 5. Update DB with new image
+  const { data: updatedUser, error: dbError } = await supabase
     .from("schools")
-    .update({
-      logo_url: new_image_url,
-    })
-    .eq("id", school_id)
+    .update({ logo_url: newImageUrl })
+    .eq("id", userId)
     .select()
     .single();
 
-  if (db_error) {
-    throw new Error(db_error.message);
-  }
+  if (dbError) throw new Error(dbError.message);
 
-  return updated_school;
+  return updatedUser;
 }
