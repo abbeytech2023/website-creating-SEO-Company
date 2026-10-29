@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useProfile } from "../hooks/useProfile";
 import { useStudents } from "../hooks/useStudents";
+import CurrentSessionTerm from "../components/CurrentSessionAndTerm";
 
 const resultProgress = [
   { name: "JSS 1A", progress: 100 },
@@ -89,17 +90,7 @@ export default function AdminDashboard() {
             <div className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
             <div className="absolute -bottom-28 right-24 h-48 w-48 rounded-full border-[24px] border-white/10" />
             <div className="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-indigo-50">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                  2025/2026 academic session
-                </div>
-                <Greeting />
-                <p className="mt-2 text-sm text-indigo-100 sm:text-base">
-                  Everything is on track for{" "}
-                  <span className="font-semibold text-white">Second Term</span>.
-                </p>
-              </div>
+              <CurrentSessionTerm />
               <Link
                 to="/results"
                 className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-indigo-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"

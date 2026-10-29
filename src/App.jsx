@@ -120,7 +120,7 @@ export default function App() {
 
             {/*accademic_swssion */}
             <Route
-              path="/accademic_session"
+              path="/academic_session"
               element={<AccademicSessionPage />}
             />
 

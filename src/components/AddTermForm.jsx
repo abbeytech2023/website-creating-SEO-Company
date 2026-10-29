@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CalendarDays, LoaderCircle, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -7,6 +8,7 @@ import { useAcademicSessions } from "../hooks/useAccademicSession";
 import { useCreateTerm } from "../hooks/useTerms";
 
 export default function AddTerm({ onClose }) {
+  const navigate = useNavigate();
   const { school } = useSchool();
 
   const {
@@ -65,6 +67,11 @@ export default function AddTerm({ onClose }) {
       return;
     }
 
+    if (!selectedSession) {
+      toast.error("The selected academic session could not be found.");
+      return;
+    }
+
     if (
       formData.startDate < selectedSession.start_date ||
       formData.endDate > selectedSession.end_date
@@ -76,7 +83,7 @@ export default function AddTerm({ onClose }) {
     createTerm(
       {
         school_id: school.id,
-        academic_session_id: formData.academicSessionId,
+        academic_session_id: Number(formData.academicSessionId),
         name: formData.name,
         start_date: formData.startDate,
         end_date: formData.endDate,
@@ -93,7 +100,10 @@ export default function AddTerm({ onClose }) {
           });
 
           onClose?.();
+
+          navigate("/");
         },
+
         onError: (error) => {
           if (error.code === "23505") {
             toast.error(
@@ -109,11 +119,13 @@ export default function AddTerm({ onClose }) {
 
   return (
     <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-xl">
+      {/* Header */}
       <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
         <div>
           <h2 className="text-xl font-bold text-gray-900">
             Create Academic Term
           </h2>
+
           <p className="mt-1 text-sm text-gray-500">
             Add a term to an academic session.
           </p>
@@ -123,7 +135,8 @@ export default function AddTerm({ onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-800"
+            disabled={isPending}
+            className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-800 disabled:opacity-50"
             aria-label="Close form"
           >
             <X size={20} />
@@ -238,11 +251,7 @@ export default function AddTerm({ onClose }) {
               id="endDate"
               name="endDate"
               value={formData.endDate}
-              min={
-                formData.startDate
-                  ? formData.startDate
-                  : selectedSession?.start_date
-              }
+              min={formData.startDate || selectedSession?.start_date}
               max={selectedSession?.end_date}
               onChange={handleChange}
               disabled={!selectedSession || isPending}
@@ -259,6 +268,7 @@ export default function AddTerm({ onClose }) {
 
             <div>
               <p className="font-semibold">{selectedSession.name}</p>
+
               <p className="mt-1 text-blue-700">
                 Session period: {selectedSession.start_date} to{" "}
                 {selectedSession.end_date}
@@ -307,3 +317,4 @@ export default function AddTerm({ onClose }) {
     </div>
   );
 }
+``;

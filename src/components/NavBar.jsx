@@ -69,7 +69,7 @@ export default function Navigation() {
     },
     {
       name: "Accademic Session",
-      path: "/accademic_session",
+      path: "/academic_session",
       icon: Settings,
     },
   ];
@@ -185,7 +185,7 @@ export default function Navigation() {
               </NavLink>
 
               <NavLink
-                to="/accademic_session"
+                to="/academic_session"
                 onClick={() => setProfileOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-50"
               >
@@ -338,7 +338,7 @@ export default function Navigation() {
             </NavLink>
 
             <NavLink
-              to="/accademic_session"
+              to="/academic_session"
               onClick={closeMobileMenu}
               className={({ isActive }) =>
                 `mt-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition ${

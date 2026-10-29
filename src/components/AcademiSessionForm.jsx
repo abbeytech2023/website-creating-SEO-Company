@@ -44,7 +44,7 @@ export default function AddAcademicSession({ onClose }) {
       {
         onSuccess: () => {
           toast.success("Academic session created successfully.");
-          navigate("/");
+          navigate("/terms");
         },
 
         onError: (error) => {
