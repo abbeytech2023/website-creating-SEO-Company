@@ -101,7 +101,7 @@ export default function AddTerm({ onClose }) {
 
           onClose?.();
 
-          navigate("/");
+          // navigate("/");
         },
 
         onError: (error) => {
