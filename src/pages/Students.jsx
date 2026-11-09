@@ -34,24 +34,32 @@ export default function Students() {
   // =========================
   // FILTER STUDENTS
   // =========================
-
   const filtered_students = useMemo(() => {
     return students.filter((student) => {
-      const full_name = `${student.first_name || ""} ${
-        student.middle_name || ""
-      } ${student.last_name || ""}`;
+      const search = search_term.trim().toLowerCase();
+
+      const full_name = [
+        student.first_name,
+        student.middle_name,
+        student.last_name,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
       const matches_search =
-        full_name.toLowerCase().includes(search_term.toLowerCase()) ||
-        (student.admission_number || "")
-          .toLowerCase()
-          .includes(search_term.toLowerCase());
+        !search ||
+        full_name.includes(search) ||
+        (student.admission_number || "").toLowerCase().includes(search) ||
+        (student.parent_phone || "").toLowerCase().includes(search) ||
+        (student.class_name || "").toLowerCase().includes(search);
 
       const matches_class =
         class_filter === "All Classes" || student.class_name === class_filter;
 
       const matches_status =
-        status_filter === "All Status" || student.status === status_filter;
+        status_filter === "All Status" ||
+        student.status?.toLowerCase() === status_filter.toLowerCase();
 
       return matches_search && matches_class && matches_status;
     });
@@ -181,10 +189,11 @@ export default function Students() {
             STUDENT TABLE
         ========================== */}
         <StudentTable
+          students={students}
           filtered_students={filtered_students}
           search_term={search_term}
-          status_filter={status_filter}
-          class_filter={class_filter}
+          on_search_change={set_search_term}
+          // on_view_student={(student) => console.log(student)}
         />
       </div>
     </div>
@@ -210,15 +219,3 @@ function SummaryCard({ icon, label, value }) {
     </div>
   );
 }
-
-/* =========================================
-   STATUS BADGE
-========================================= */
-
-/* =========================================
-   STUDENT DETAIL
-========================================= */
-
-/* =========================================
-   ACTION MENU
-========================================= */

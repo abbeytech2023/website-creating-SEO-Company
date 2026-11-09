@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, UserPlus, Camera, User } from "lucide-react";
 import { useAddStudent } from "../hooks/useStudents";
 import { useProfile } from "../hooks/useProfile";
+import { useClasses } from "../hooks/useClasses";
+import { useSchool } from "../hooks/useSchool";
 
 const Input = React.forwardRef(({ label, error, ...props }, ref) => {
   return (
@@ -36,6 +38,14 @@ export default function AddStudentForm({ showAddStudent, setShowAddStudent }) {
   const { profile } = useProfile();
 
   const schUid = profile?.uid;
+
+  const { school } = useSchool();
+
+  const {
+    classes = [],
+    isPending: isLoadingClasses,
+    error: classesError,
+  } = useClasses(school?.id);
 
   // =========================
   // ADD STUDENT HOOK
@@ -312,22 +322,46 @@ export default function AddStudentForm({ showAddStudent, setShowAddStudent }) {
                 {...register("class_name", {
                   required: "Class is required",
                 })}
+                disabled={isLoadingClasses || !classes.length}
                 className={`w-full rounded-lg border px-4 py-3 text-sm outline-none
-                  focus:border-blue-500 focus:ring-2 focus:ring-blue-100
-                  ${errors.class_name ? "border-red-400" : "border-slate-300"}`}
+      focus:border-blue-500 focus:ring-2 focus:ring-blue-100
+      ${errors.class_name ? "border-red-400" : "border-slate-300"}
+      disabled:cursor-not-allowed disabled:bg-slate-100`}
               >
-                <option value="">Select class</option>
-                <option value="JSS 1A">JSS 1A</option>
-                <option value="JSS 1B">JSS 1B</option>
-                <option value="JSS 2A">JSS 2A</option>
-                <option value="JSS 2B">JSS 2B</option>
-                <option value="JSS 3A">JSS 3A</option>
-                <option value="JSS 3B">JSS 3B</option>
+                <option value="">
+                  {isLoadingClasses
+                    ? "Loading classes..."
+                    : classes.length
+                      ? "Select class"
+                      : "No classes available"}
+                </option>
+
+                {classes.map((class_item) => (
+                  <option
+                    key={class_item.id}
+                    value={`${class_item.class_name} ${class_item.section || ""}`.trim()}
+                  >
+                    {class_item.class_name}
+                    {class_item.section ? ` ${class_item.section}` : ""}
+                  </option>
+                ))}
               </select>
 
               {errors.class_name && (
                 <p className="text-xs text-red-500">
                   {errors.class_name.message}
+                </p>
+              )}
+
+              {classesError && (
+                <p className="text-xs text-red-500">
+                  Unable to load classes. Please try again.
+                </p>
+              )}
+
+              {!isLoadingClasses && !classes.length && (
+                <p className="text-xs text-amber-600">
+                  Create a class before registering a student.
                 </p>
               )}
             </div>
